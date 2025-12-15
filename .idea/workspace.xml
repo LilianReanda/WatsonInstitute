@@ -6,9 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truist-filtros.csv" beforeDir="false" afterPath="$PROJECT_DIR$/truist-filtros.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truist.csv" beforeDir="false" afterPath="$PROJECT_DIR$/truist.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellsfargo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/wellsfargo.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/12-08-25-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/PTA/Truist/12-08-25-Truist-Partials-Entries-Converted-to-Applications.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-Truist.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/PTA-Truist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-WellsFargo.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/PTA-WellsFargo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Truist Spring 26/11_17_2025 - Truist S26 - Partial Entries Report #1.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Truist Spring 26/11_24_2025 - Truist S26 - Partial Entries Report #2 .xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Truist Spring 26/12-15-2025 - Truist S26 - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Truist Spring 26/12_01_2025 - Truist S26 - Partial Entries Report #3 .xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Wells Fargo 26/11_17_2025 - Wells Fargo S26 - Partial Entries Report #1.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Wells Fargo 26/11_24_2025 - Wells Fargo S26 - Partial Entries Report #2.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Wells Fargo 26/12-15-2025 - Wells Fargo S26 - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Wells Fargo 26/12_01_2025 - Wells Fargo S26 - Partial Entries Report #3.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

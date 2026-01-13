@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-WellsFargo.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/PTA-WellsFargo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/truist-salesforce.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/wellsfargo-salesforce.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/salesforce/wellsfargo-salesforce.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellsfargo-filtros.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellsfargo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/wellsfargo.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-Truist.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/PTA-Truist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/truist.csv" beforeDir="false" afterPath="$PROJECT_DIR$/truist.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

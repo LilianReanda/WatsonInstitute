@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 today_str = datetime.today().strftime("%m-%d-%y")
 
 # File paths
-partials_file = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\reports\Truist Spring 26\01-09-2026 - Truist S26 - Partial Entries Report #9.xlsx"
+partials_file = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\reports\Truist Spring 26\01-13-2026 - Truist S26 - Partial Entries Report #10.xlsx"
 salesforce_file = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\salesforce\truist-salesforce.xlsx"
 output_file = fr"C:\Users\lilia\PycharmProjects\WatsonInstitute\{today_str}-Truist-Partials-Entries-Converted-to-Applications.xlsx"
 

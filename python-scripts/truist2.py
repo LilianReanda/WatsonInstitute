@@ -2,14 +2,14 @@ import pandas as pd
 from datetime import datetime
 
 # Input path
-input_path = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\truist-filtros.csv"
+input_path = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\truist-filtros.csv"
 
 # Date for filenames
 date_str = datetime.today().strftime("%m-%d-%Y")
 
 # Output filename for partial entries
 partial_file = f"{date_str} - Truist S26 - Partial Entries Report.xlsx"
-partial_output_path = rf"C:\Users\lilia\PycharmProjects\WatsonInstitute\{partial_file}"
+partial_output_path = rf"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\{partial_file}"
 
 # Load CSV
 df = pd.read_csv(input_path)

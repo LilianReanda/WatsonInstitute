@@ -9,9 +9,9 @@ warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 today_str = datetime.today().strftime("%m-%d-%y")
 
 # File paths
-partials_file = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\reports\Wells Fargo 26\01-12-2026 - Wells Fargo S26 - Partial Entries Report #10.xlsx"
-salesforce_file = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\salesforce\wellsfargo-salesforce.xlsx"
-output_file = fr"C:\Users\lilia\PycharmProjects\WatsonInstitute\{today_str}-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx"
+partials_file = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\reports\Wells Fargo 26\02-09-2026 - Wells Fargo S26 - Partial Entries Report #14.xlsx"
+salesforce_file = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\salesforce\wellsfargo-salesforce.xlsx"
+output_file = fr"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\{today_str}-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx"
 
 # Load Excel files
 df_partials = pd.read_excel(partials_file)

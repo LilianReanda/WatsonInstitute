@@ -1,20 +1,29 @@
 import pandas as pd
 
-# Required 2 weeks before the deadline and after the deadline
-# Full path of the file
-ruta = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\wellsfargo.csv"
+# INPUT CSV - Wells Fargo
+ruta = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\wellsfargo.csv"
 
-# Load CSV
+# Cargar CSV
 df = pd.read_csv(ruta)
 
-# Fix encoding issues in First/Last names
-df['Name (First)'] = df['Name (First)'].apply(lambda x: x.encode('latin-1', 'ignore').decode('utf-8', 'ignore') if isinstance(x, str) else x)
-df['Name (Last)'] = df['Name (Last)'].apply(lambda x: x.encode('latin-1', 'ignore').decode('utf-8', 'ignore') if isinstance(x, str) else x)
+# --------------------------------------------------
+# 1) Limpiar nombres de columnas (espacios invisibles)
+# --------------------------------------------------
+df.columns = df.columns.astype(str).str.strip()
 
-# Clean column names (remove invisible spaces)
-df.columns = df.columns.str.strip()
+# --------------------------------------------------
+# 2) Corregir encoding en nombres
+# --------------------------------------------------
+for col in ["Name (First)", "Name (Last)"]:
+    if col in df.columns:
+        df[col] = df[col].apply(
+            lambda x: x.encode("latin-1", "ignore").decode("utf-8", "ignore")
+            if isinstance(x, str) else x
+        )
 
-# Columns to clean
+# --------------------------------------------------
+# 3) Corregir encoding en columnas de texto relevantes
+# --------------------------------------------------
 columns_to_fix = [
     "Country of Citizenship",
     "Address (City)",
@@ -23,47 +32,54 @@ columns_to_fix = [
     "In what state does your venture primarily create impact?"
 ]
 
-# Apply fix only to columns that exist in the DataFrame
 for col in columns_to_fix:
     if col in df.columns:
         df[col] = df[col].apply(
-            lambda x: x.encode('latin-1', 'ignore').decode('utf-8', 'ignore') if isinstance(x, str) else x
+            lambda x: x.encode("latin-1", "ignore").decode("utf-8", "ignore")
+            if isinstance(x, str) else x
         )
 
-# Fill empty Email cells with "Null"
+# --------------------------------------------------
+# 4) Normalizar Email
+# --------------------------------------------------
 email_col = "Email (Enter Email)"
-if email_col in df.columns:
-    df[email_col] = df[email_col].astype(str).str.strip()  # remove extra spaces
-    df[email_col] = df[email_col].replace(["", "nan", "NaN", "None"], "Null")
-else:
-    print(f"Column '{email_col}' was not found.")
+if email_col not in df.columns:
+    raise KeyError(f"No se encontró la columna '{email_col}'.")
 
-# Clean and fill 'Progress' column
-if 'Progress' in df.columns:
-    df['Progress'] = df['Progress'].astype(str).str.strip()
-    df['Progress'] = df['Progress'].replace(["", "nan", "NaN", "None"], "100")
-    df['Progress'] = df['Progress'].astype(float)  # convert to number for sorting
-else:
-    print("Column 'Progress' was not found.")
+df[email_col] = df[email_col].astype(str).str.strip()
+df[email_col] = df[email_col].replace(
+    ["", "nan", "NaN", "None", "NULL", "null"], "Null"
+)
 
-# Move 'Progress' column after 'Name (Last)'
-if 'Progress' in df.columns and 'Name (Last)' in df.columns:
+# --------------------------------------------------
+# 5) Normalizar Progress
+# Vacío o 0 => 100
+# --------------------------------------------------
+if "Progress" not in df.columns:
+    raise KeyError("No se encontró la columna 'Progress'.")
+
+df["Progress"] = pd.to_numeric(df["Progress"], errors="coerce")
+df["Progress"] = df["Progress"].fillna(100)
+df.loc[df["Progress"] == 0, "Progress"] = 100
+
+# --------------------------------------------------
+# 6) Reordenar Progress después de Name (Last)
+# --------------------------------------------------
+if "Name (Last)" in df.columns:
     cols = df.columns.tolist()
     cols.insert(cols.index("Name (Last)") + 1, cols.pop(cols.index("Progress")))
     df = df[cols]
-else:
-    print("Columns required to reorder do not exist.")
 
-# Sort by Email and then by Progress (highest to lowest)
-if email_col in df.columns and 'Progress' in df.columns:
-    df = df.sort_values(by=[email_col, 'Progress'], ascending=[True, False])
-else:
-    print("Error: Email or Progress column not found.")
+# --------------------------------------------------
+# 7) Ordenar por Email y Progress (descendente)
+# --------------------------------------------------
+df = df.sort_values(by=[email_col, "Progress"], ascending=[True, False])
 
-# Save final CSV
-ruta_salida = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\wellsfargo-filtros.csv"
+# --------------------------------------------------
+# 8) Guardar CSV final
+# --------------------------------------------------
+ruta_salida = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\wellsfargo-filtros.csv"
 df.to_csv(ruta_salida, index=False)
 
-# Print number of records
-print(f"File with {len(df)} entries.")
-
+print(f"Script ejecutado correctamente. Filas: {len(df)}")
+print(f"CSV generado: {ruta_salida}")

@@ -2,7 +2,7 @@ import pandas as pd
 
 # Required 2 weeks before the deadline and after the deadline
 # Full path of the file
-ruta = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\truist.csv"
+ruta = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\truist.csv"
 
 # Load CSV
 df = pd.read_csv(ruta)
@@ -61,7 +61,7 @@ else:
     print("Error: Email or Progress column not found.")
 
 # Save final CSV
-ruta_salida = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\truist-filtros.csv"
+ruta_salida = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\truist-filtros.csv"
 df.to_csv(ruta_salida, index=False)
 
 # Print number of records

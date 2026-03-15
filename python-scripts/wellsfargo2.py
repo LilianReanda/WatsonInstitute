@@ -2,11 +2,11 @@ import pandas as pd
 from datetime import datetime
 
 # Paths
-ruta_entrada = r"C:\Users\lilia\PycharmProjects\WatsonInstitute\wellsfargo-filtros.csv"
+ruta_entrada = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\wellsfargo-filtros.csv"
 
 fecha = datetime.today().strftime("%m-%d-%Y")
 nombre_archivo = f"{fecha} - Wells Fargo S26 - Partial Entries Report.xlsx"
-ruta_salida = rf"C:\Users\lilia\PycharmProjects\WatsonInstitute\{nombre_archivo}"
+ruta_salida = rf"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\{nombre_archivo}"
 
 # Load CSV
 df = pd.read_csv(ruta_entrada)

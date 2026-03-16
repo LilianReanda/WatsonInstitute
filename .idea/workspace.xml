@@ -5,21 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/WatsonInstitute.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/WatsonInstitute.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/gravity-forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/wellsfargo-fellowship.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-Truist.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/PTA-Truist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-WellsFargo.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/PTA-WellsFargo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/truist.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/truist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/truist2.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/truist2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/wellsfargo.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/wellsfargo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/wellsfargo2.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/wellsfargo2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/truist-salesforce.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/salesforce/truist-salesforce.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/wellsfargo-salesforce.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/salesforce/wellsfargo-salesforce.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truist-filtros.csv" beforeDir="false" afterPath="$PROJECT_DIR$/truist-filtros.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truist.csv" beforeDir="false" afterPath="$PROJECT_DIR$/truist.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellsfargo-filtros.csv" beforeDir="false" afterPath="$PROJECT_DIR$/wellsfargo-filtros.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellsfargo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/wellsfargo.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-Truist.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-WellsFargo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/google.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/google2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/gravity_forms_script_1_limpieza_y_normalizacion_de_progress.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/rlom.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/rlom2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/truist.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/truist2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/wellsfargo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/wellsfargo2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/wu.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/wu2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/02-23-2026 - Truist S26 - Partial Entries Report #16.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/02-23-2026 - Wells Fargo S26 - Partial Entries Report #16.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/truist-filtros.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/truist.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellsfargo-filtros.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellsfargo.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,49 +55,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.PTA-Truist.executor&quot;: &quot;Run&quot;,
-    &quot;Python.PTA-WellsFargo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.cleaned.executor&quot;: &quot;Run&quot;,
-    &quot;Python.google.executor&quot;: &quot;Run&quot;,
-    &quot;Python.google2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.googleai.executor&quot;: &quot;Run&quot;,
-    &quot;Python.googleai2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.gravity_forms_script_1_limpieza_y_normalizacion_de_progress.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.metrics.executor&quot;: &quot;Run&quot;,
-    &quot;Python.rlom-2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.rlom.executor&quot;: &quot;Run&quot;,
-    &quot;Python.rlom2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.truist.executor&quot;: &quot;Run&quot;,
-    &quot;Python.truist2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.wellsfargo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.wellsfargo2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.wu-2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.wu.executor&quot;: &quot;Run&quot;,
-    &quot;Python.wu2.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.PTA-Truist.executor": "Run",
+    "Python.PTA-WellsFargo.executor": "Run",
+    "Python.cleaned.executor": "Run",
+    "Python.google.executor": "Run",
+    "Python.google2.executor": "Run",
+    "Python.googleai.executor": "Run",
+    "Python.googleai2.executor": "Run",
+    "Python.gravity-forms.executor": "Run",
+    "Python.gravity_forms_script_1_limpieza_y_normalizacion_de_progress.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.metrics.executor": "Run",
+    "Python.rlom-2.executor": "Run",
+    "Python.rlom.executor": "Run",
+    "Python.rlom2.executor": "Run",
+    "Python.truist-fellowship.executor": "Run",
+    "Python.truist.executor": "Run",
+    "Python.truist2.executor": "Run",
+    "Python.wellsfargo-fellowship.executor": "Run",
+    "Python.wellsfargo.executor": "Run",
+    "Python.wellsfargo2.executor": "Run",
+    "Python.wu-2.executor": "Run",
+    "Python.wu.executor": "Run",
+    "Python.wu2.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "ai.playground.ignore.import.keys.banner.in.settings": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "vcs.Git",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-PY-253.29346.308" />
         <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
       </set>
     </attachedChunks>
@@ -139,6 +149,7 @@
       <workItem from="1771262307635" duration="268000" />
       <workItem from="1771861883663" duration="2703000" />
       <workItem from="1771947132069" duration="2615000" />
+      <workItem from="1773605216622" duration="17000" />
     </task>
     <servers />
   </component>

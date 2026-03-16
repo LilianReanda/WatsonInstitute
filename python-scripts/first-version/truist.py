@@ -25,24 +25,25 @@ if "Progress" not in df.columns:
 # Convertir a numérico (vacíos -> NaN)
 df["Progress"] = pd.to_numeric(df["Progress"], errors="coerce")
 
-# Vacíos -> 100 (considerados aplicaciones completadas)
+# Vacíos -> 100
 df["Progress"] = df["Progress"].fillna(100)
 
-# Por seguridad: 0 -> 100 (si apareciera)
+# 0 -> 100
 df.loc[df["Progress"] == 0, "Progress"] = 100
 
 # 4) Ordenar por Email y luego por Progress (mayor a menor)
 df = df.sort_values(by=[email_col, "Progress"], ascending=[True, False])
 
-# OUTPUTS
-# A) CSV para scripts posteriores
+# 5) Mover la columna Progress antes de Email
+cols = list(df.columns)
+cols.remove("Progress")
+email_index = cols.index(email_col)
+cols.insert(email_index, "Progress")
+df = df[cols]
+
+# OUTPUT CSV
 ruta_salida_csv = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\truist-filtros.csv"
 df.to_csv(ruta_salida_csv, index=False)
 
-# B) Excel para revisión humana
-ruta_salida_xlsx = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\truist-filtros.xlsx"
-df.to_excel(ruta_salida_xlsx, index=False)
-
 print(f"Script ejecutado correctamente. Filas: {len(df)}")
 print(f"CSV generado: {ruta_salida_csv}")
-print(f"Excel generado: {ruta_salida_xlsx}")

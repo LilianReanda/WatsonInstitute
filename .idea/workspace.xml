@@ -5,29 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/gravity-forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/wellsfargo-fellowship.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/Partials-to-Apps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-Truist.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/PTA-WellsFargo.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/google.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/google2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/gravity_forms_script_1_limpieza_y_normalizacion_de_progress.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/rlom.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/rlom2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/truist.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/truist2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/wellsfargo.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/wellsfargo2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/wu.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/wu2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/02-23-2026 - Truist S26 - Partial Entries Report #16.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/02-23-2026 - Wells Fargo S26 - Partial Entries Report #16.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/truist-filtros.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/truist.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellsfargo-filtros.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellsfargo.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/google.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/03-16-2026 - Ford - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/03-16-2026 - Halloran - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rlom.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/truist-salesforce.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/wellsfargo-salesforce.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wu.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +54,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.PTA-Truist.executor": "Run",
     "Python.PTA-WellsFargo.executor": "Run",
+    "Python.Partials-to-Apps.executor": "Run",
     "Python.cleaned.executor": "Run",
     "Python.google.executor": "Run",
     "Python.google2.executor": "Run",

@@ -16,11 +16,6 @@ today = datetime.today().strftime("%m-%d-%Y")
 # FUNCTION TO DETECT PROGRAM NAME
 # --------------------------------------------------
 def detect_program(filename):
-    """
-    Detects program name from the filename.
-    If known keywords exist (Wells Fargo, Truist), returns those.
-    Otherwise returns the filename without extension.
-    """
     name = os.path.splitext(filename)[0]
 
     lower = name.lower()
@@ -29,7 +24,6 @@ def detect_program(filename):
     if "truist" in lower:
         return "Truist"
 
-    # fallback: return the filename without extension
     return name
 
 # --------------------------------------------------
@@ -43,8 +37,6 @@ for file in os.listdir(input_folder):
     program_name = detect_program(file)
     input_path = os.path.join(input_folder, file)
 
-    print(f"\nProcessing {program_name} ({file})...")
-
     df = pd.read_csv(input_path)
 
     # --------------------------------------------------
@@ -54,9 +46,7 @@ for file in os.listdir(input_folder):
     email_col = "Email (Enter Email)"
     progress_col = "Progress"
 
-    # Skip file if required columns missing
     if email_col not in df.columns or progress_col not in df.columns:
-        print(f"Skipped {file} (missing required columns)")
         continue
 
     # --------------------------------------------------
@@ -117,7 +107,6 @@ for file in os.listdir(input_folder):
 
     df_final = pd.DataFrame(selected_rows)
     if df_final.empty:
-        print(f"No partial entries found for {program_name}")
         continue
 
     df_final = df_final.sort_values(by=progress_col, ascending=False).reset_index(drop=True)
@@ -128,10 +117,13 @@ for file in os.listdir(input_folder):
     above_70 = df_final[df_final[progress_col] >= 70]
     below_69 = df_final[df_final[progress_col] <= 69]
 
-    summary = pd.DataFrame({
-        "Metric": ["Partial Entries", "Above 70%", "Below 69%"],
-        "Count": [len(df_final), len(above_70), len(below_69)]
-    })
+    summary = [
+        ("Partial Entries", len(df_final)),
+        ("Above 70%", len(above_70)),
+        ("Below 69%", len(below_69))
+    ]
+
+    summary_df = pd.DataFrame(summary, columns=["Metric", "Count"])
 
     # --------------------------------------------------
     # Export Excel
@@ -141,33 +133,44 @@ for file in os.listdir(input_folder):
 
     with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
 
-        # Write sheets
         df_final.to_excel(writer, sheet_name="Final", index=False)
-        summary.to_excel(writer, sheet_name="Summary", index=False)
+        summary_df.to_excel(writer, sheet_name="Summary", index=False)
 
-        workbook = writer.book
-
-        # -----------------------------
-        # Adjust Final sheet
-        # -----------------------------
+        # -------- Final sheet formatting --------
         ws_final = writer.sheets["Final"]
         ws_final.freeze_panes(1, 0)
         ws_final.autofilter(0, 0, len(df_final), len(df_final.columns) - 1)
+
         for i, col in enumerate(df_final.columns):
             series = df_final[col].fillna("").astype(str)
             max_len = max(series.map(len).max(), len(col)) + 2
             ws_final.set_column(i, i, min(max_len, 50))
 
-        # -----------------------------
-        # Adjust Summary sheet
-        # -----------------------------
+        # -------- Summary sheet formatting --------
         ws_summary = writer.sheets["Summary"]
         ws_summary.freeze_panes(1, 0)
-        for i, col in enumerate(summary.columns):
-            series = summary[col].fillna("").astype(str)
-            max_len = max(series.map(len).max(), len(col)) + 2
-            ws_summary.set_column(i, i, min(max_len, 50))
 
-    print(f"Report generated: {output_name}")
+        for i, col in enumerate(summary_df.columns):
+            series = summary_df[col].astype(str)
+            max_len = max(series.map(len).max(), len(col)) + 2
+            ws_summary.set_column(i, i, max_len)
+
+    # --------------------------------------------------
+    # PRINT CLEAN SUMMARY (DYNAMIC WIDTH)
+    # --------------------------------------------------
+    title = f"Report generated: {output_name}"
+    line = "=" * len(title)
+
+    print("\n" + line)
+    print(title)
+    print(line)
+
+    col1_width = 20
+    col2_width = 10
+
+    print(f"{'Metric':<{col1_width}}{'Count':>{col2_width}}")
+
+    for metric, count in summary:
+        print(f"{metric:<{col1_width}}{count:>{col2_width}}")
 
 print("\nAll files processed.")

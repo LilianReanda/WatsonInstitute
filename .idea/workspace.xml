@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/Partials-to-Apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/optimized/Partials-to-Apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/gravity-forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/optimized/gravity-forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/ESEP F26 All R&amp;A Weekly apps-2026-04-13-16-54-35.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Enlight F26 All R&amp;A Weekly apps-2026-04-13-16-53-53.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Flagship F26 All R&amp;A Weekly apps-2026-04-13-16-54-59.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Ford F26 All R&amp;A Weekly apps-2026-04-13-16-55-27.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Western Union F26 All R&amp;A Weekly apps-2026-04-13-17-15-36.xlsx" beforeDir="false" />
-    </list>
+    <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

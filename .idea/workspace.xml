@@ -4,7 +4,53 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="" />
+    <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/02-16-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/02-16-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/01-01-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/01-05-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/01-09-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/01-13-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/01-19-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/01-26-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/02-02-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/02-09-26-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/11-24-25-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/12-01-25-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/12-08-25-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/12-15-25-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/Truist/12-22-25-Truist-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/01-01-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/01-05-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/01-09-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/01-12-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/01-19-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/01-26-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/02-02-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/02-09-26-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/11-24-25-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/12-01-25-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/12-08-25-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/12-15-25-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PTA/WellsFargo/12-22-25-WellsFargo-Partials-Entries-Converted-to-Applications.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/00 - Generate Partial Entries converted to Apps/04-20-2026 - BMO - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/00 - Generate Partial Entries converted to Apps/04-20-2026 - ESEP - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/00 - Generate Partial Entries converted to Apps/04-20-2026 - Enlight - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/00 - Generate Partial Entries converted to Apps/04-20-2026 - Flagship - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/00 - Generate Partial Entries converted to Apps/04-20-2026 - Ford - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/00 - Generate Partial Entries converted to Apps/04-20-2026 - Google - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/00 - Generate Partial Entries converted to Apps/04-20-2026 - Halloran - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/00 - Generate Partial Entries converted to Apps/04-20-2026 - WesternUnion - Partial Entries Report.xlsx" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

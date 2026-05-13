@@ -56,24 +56,7 @@ def normalize(text):
 
 
 # --------------------------------------------------
-# EXTRACT PROGRAM NAME
-# --------------------------------------------------
-
-def extract_program_name(file_name):
-
-    name = file_name.replace(".xlsx", "")
-
-    parts = name.split(" - ")
-
-    return (
-        parts[1].strip()
-        if len(parts) >= 2
-        else name
-    )
-
-
-# --------------------------------------------------
-# EXTRACT DATE FROM REPORT
+# EXTRACT DATE
 # --------------------------------------------------
 
 def extract_date(file_name):
@@ -157,7 +140,6 @@ def auto_adjust_columns(file_path):
                         len(cell_value)
                     )
 
-                    # Wrap text
                     cell.alignment = Alignment(
                         wrap_text=True,
                         vertical="top"
@@ -224,8 +206,14 @@ def safe_column(df, col_name):
 
 program_reports = {}
 
+# --------------------------------------------------
+# IMPORTANT:
+# ONLY ORIGINAL REPORTS
+# EXCLUDE WEEKLY FILES
+# --------------------------------------------------
+
 pattern = re.compile(
-    r"(\d{2}-\d{2}-\d{4}) - (.+?) - Partial Entries Report.*\.xlsx$",
+    r"(\d{2}-\d{2}-\d{4}) - (.+?) - Partial Entries Report\.xlsx$",
     re.IGNORECASE
 )
 
@@ -238,6 +226,10 @@ for root, dirs, files in os.walk(reports_path):
     for file in files:
 
         if not file.endswith(".xlsx"):
+            continue
+
+        # EXCLUDE WEEKLY FILES
+        if " - Weekly.xlsx" in file:
             continue
 
         match = pattern.match(file)
@@ -329,6 +321,8 @@ for program_key, data in program_reports.items():
         print("No Salesforce match found.")
         continue
 
+    print(f"SALESFORCE: {os.path.basename(salesforce_file)}")
+
     # --------------------------------------------------
     # READ FILES
     # --------------------------------------------------
@@ -366,36 +360,66 @@ for program_key, data in program_reports.items():
     salesforce_email_col = "Email"
 
     # Current partials
-    df_latest["Email_clean"] = safe_column(
-        df_latest,
-        latest_email_col
-    ).astype(str).str.strip().str.lower()
+    df_latest["Email_clean"] = (
+        safe_column(
+            df_latest,
+            latest_email_col
+        )
+        .astype(str)
+        .str.strip()
+        .str.lower()
+    )
 
     # Previous partials
-    df_previous["Email_clean"] = safe_column(
-        df_previous,
-        previous_email_col
-    ).astype(str).str.strip().str.lower()
+    df_previous["Email_clean"] = (
+        safe_column(
+            df_previous,
+            previous_email_col
+        )
+        .astype(str)
+        .str.strip()
+        .str.lower()
+    )
 
     # Salesforce emails
-    df_salesforce["Email_clean"] = safe_column(
-        df_salesforce,
-        salesforce_email_col
-    ).astype(str).str.strip().str.lower()
+    df_salesforce["Email_clean"] = (
+        safe_column(
+            df_salesforce,
+            salesforce_email_col
+        )
+        .astype(str)
+        .str.strip()
+        .str.lower()
+    )
+
+    # Remove invalid emails
+    invalid_values = {
+        "",
+        "nan",
+        "none",
+        "null"
+    }
+
+    df_latest = df_latest[
+        ~df_latest["Email_clean"].isin(
+            invalid_values
+        )
+    ]
+
+    df_previous = df_previous[
+        ~df_previous["Email_clean"].isin(
+            invalid_values
+        )
+    ]
+
+    df_salesforce = df_salesforce[
+        ~df_salesforce["Email_clean"].isin(
+            invalid_values
+        )
+    ]
 
     # ==================================================
     # FIND PEOPLE WHO LEFT PARTIALS
-    # ==================================================
-    #
-    # Previous week:
-    # A B C D
-    #
-    # Current week:
-    # B D
-    #
-    # Removed:
-    # A C
-    #
     # ==================================================
 
     previous_emails = set(
@@ -406,10 +430,15 @@ for program_key, data in program_reports.items():
         df_latest["Email_clean"]
     )
 
+    # People who disappeared
     removed_emails = previous_emails - latest_emails
 
+    print(f"Previous partials: {len(previous_emails)}")
+    print(f"Current partials:  {len(latest_emails)}")
+    print(f"Removed partials:  {len(removed_emails)}")
+
     # --------------------------------------------------
-    # FILTER PREVIOUS WEEK ROWS
+    # FILTER REMOVED ROWS
     # --------------------------------------------------
 
     df_removed = df_previous[
@@ -422,11 +451,11 @@ for program_key, data in program_reports.items():
     # FIND CONVERSIONS
     # ==================================================
     #
-    # People who:
+    # Logic:
     #
-    # 1. Existed last week
-    # 2. Disappeared this week
-    # 3. Exist in Salesforce
+    # 1. Was partial last week
+    # 2. Is no longer partial this week
+    # 3. Exists in Salesforce
     #
     # ==================================================
 
@@ -435,6 +464,11 @@ for program_key, data in program_reports.items():
         df_salesforce,
         on="Email_clean",
         how="inner"
+    )
+
+    # Remove duplicate conversions
+    merged = merged.drop_duplicates(
+        subset=["Email_clean"]
     )
 
     converted_count = len(merged)
@@ -449,7 +483,7 @@ for program_key, data in program_reports.items():
         continue
 
     # ==================================================
-    # FINAL DATAFRAME
+    # FINAL OUTPUT
     # ==================================================
 
     final_df = pd.DataFrame({
@@ -520,6 +554,20 @@ for program_key, data in program_reports.items():
         output_file
     )
 
+    # Remove existing file if open/exists
+    if os.path.exists(output_full_path):
+
+        try:
+            os.remove(output_full_path)
+
+        except PermissionError:
+
+            print(
+                f"Close Excel file first: {output_file}"
+            )
+
+            continue
+
     # ==================================================
     # EXPORT
     # ==================================================
@@ -531,7 +579,6 @@ for program_key, data in program_reports.items():
             index=False
         )
 
-        # Auto-format Excel
         auto_adjust_columns(
             output_full_path
         )
@@ -566,4 +613,6 @@ for program, count, file in summary:
 
     print(f"Created: {file}\n")
 
-print("Done.")
+
+
+print("\nAll files processed.")

@@ -1,8 +1,13 @@
+# --------------------------------------------------
+# IMPORTS
+# --------------------------------------------------
+
 import pandas as pd
 import os
 import re
 from datetime import datetime
 import warnings
+
 warnings.simplefilter("ignore", UserWarning)
 
 # --------------------------------------------------
@@ -19,11 +24,7 @@ conversions_folder = (
 
 salesforce_folder = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\salesforce"
 
-output_folder = os.path.join(
-    reports_folder,
-    "Week-to-Week-Comparison"
-)
-
+output_folder = os.path.join(reports_folder, "Week-to-Week-Comparison")
 os.makedirs(output_folder, exist_ok=True)
 
 today = datetime.today().strftime("%m-%d-%Y")
@@ -35,16 +36,35 @@ output_path = os.path.join(
 
 launch_date = datetime.strptime("03-30-2026", "%m-%d-%Y")
 
+# --------------------------------------------------
+# NORMALIZATION
+# --------------------------------------------------
+
+def normalize_program_name(name):
+    name = name.lower()
+
+    name = name.replace("westernunion", "western union")
+    name = name.replace("wellsfargo", "wells fargo")
+
+    name = re.sub(r"f26", "", name, flags=re.IGNORECASE)
+    name = re.sub(r"all r&a", "", name, flags=re.IGNORECASE)
+    name = re.sub(r"weekly apps", "", name, flags=re.IGNORECASE)
+    name = re.sub(r"weekly", "", name, flags=re.IGNORECASE)
+
+    name = re.sub(r"\s+", " ", name).strip()
+
+    return name
+
+# --------------------------------------------------
+# REPORT FILES
+# --------------------------------------------------
+
 pattern = re.compile(
     r"(\d{2}-\d{2}-\d{4}) - (.+?) - Partial Entries Report.*\.xlsx$",
     re.IGNORECASE
 )
 
 program_files = {}
-
-# --------------------------------------------------
-# SEARCH REPORTS
-# --------------------------------------------------
 
 for root, dirs, files_in_dir in os.walk(reports_folder):
 
@@ -59,11 +79,7 @@ for root, dirs, files_in_dir in os.walk(reports_folder):
 
         date_str, program_name = match.groups()
 
-        normalized_program = program_name.strip().lower()
-
-        if normalized_program in ["truist", "wells fargo"]:
-            continue
-
+        normalized_program = normalize_program_name(program_name)
         display_name = program_name.strip()
 
         try:
@@ -86,7 +102,7 @@ for root, dirs, files_in_dir in os.walk(reports_folder):
         )
 
 # --------------------------------------------------
-# MASTER DATE LIST
+# MASTER DATES
 # --------------------------------------------------
 
 all_dates = set()
@@ -118,7 +134,7 @@ for root, dirs, files in os.walk(conversions_folder):
 
         date_str, raw_program = match.groups()
 
-        normalized_program = raw_program.strip().lower()
+        normalized_program = normalize_program_name(raw_program)
 
         try:
             file_date = datetime.strptime(date_str, "%m-%d-%y")
@@ -126,10 +142,8 @@ for root, dirs, files in os.walk(conversions_folder):
         except:
             continue
 
-        full_path = os.path.join(root, file)
-
         try:
-            df_conversion = pd.read_excel(full_path)
+            df_conversion = pd.read_excel(os.path.join(root, file))
             conversion_count = len(df_conversion.index)
         except:
             conversion_count = 0
@@ -138,25 +152,16 @@ for root, dirs, files in os.walk(conversions_folder):
         conversions_lookup[normalized_program][formatted_date] = conversion_count
 
 # --------------------------------------------------
-# SALESFORCE WEEKLY AGGREGATION (REAL DATE BASED)
+# SALESFORCE
 # --------------------------------------------------
 
 salesforce_lookup = {}
-
-salesforce_pattern = re.compile(
-    r".*-(\d{4}-\d{2}-\d{2})-.*\.xlsx$",
-    re.IGNORECASE
-)
 
 for root, dirs, files in os.walk(salesforce_folder):
 
     for file in files:
 
-        if not file.endswith(".xlsx"):
-            continue
-
-        match = salesforce_pattern.match(file)
-        if not match:
+        if not file.lower().endswith(".xlsx"):
             continue
 
         file_path = os.path.join(root, file)
@@ -169,6 +174,9 @@ for root, dirs, files in os.walk(salesforce_folder):
         if "Application Date Submitted" not in df_sf.columns:
             continue
 
+        raw_name = file.split("-2026")[0]
+        normalized_program = normalize_program_name(raw_name)
+
         df_sf["Application Date Submitted"] = pd.to_datetime(
             df_sf["Application Date Submitted"],
             errors="coerce"
@@ -176,23 +184,24 @@ for root, dirs, files in os.walk(salesforce_folder):
 
         df_sf = df_sf.dropna(subset=["Application Date Submitted"])
 
-        # Sunday-based week start
-        df_sf["week_start"] = df_sf["Application Date Submitted"] - pd.to_timedelta(
-            (df_sf["Application Date Submitted"].dt.weekday + 1) % 7,
-            unit="D"
-        )
+        for app_date in df_sf["Application Date Submitted"]:
 
-        df_sf["week_start"] = df_sf["week_start"].dt.strftime("%m/%d/%Y")
+            days_since_sunday = (app_date.weekday() + 1) % 7
+            sunday = app_date - pd.Timedelta(days=days_since_sunday)
 
-        program_name_raw = file.split(" Weekly apps")[0].strip().lower()
+            report_date = sunday + pd.Timedelta(days=8)
+            report_label = report_date.strftime("%m/%d/%Y")
 
-        grouped = df_sf.groupby("week_start").size()
+            # --------------------------------------------------
+            # EXCEPCIÓN FIX
+            # --------------------------------------------------
+            if report_label == "05/05/2026":
+                report_label = "05/04/2026"
 
-        for week_start, count in grouped.items():
-
-            salesforce_lookup.setdefault(program_name_raw, {})
-            salesforce_lookup[program_name_raw][week_start] = \
-                salesforce_lookup[program_name_raw].get(week_start, 0) + int(count)
+            salesforce_lookup.setdefault(normalized_program, {})
+            salesforce_lookup[normalized_program][report_label] = (
+                salesforce_lookup[normalized_program].get(report_label, 0) + 1
+            )
 
 # --------------------------------------------------
 # EXCEL OUTPUT
@@ -204,14 +213,18 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
     worksheet = workbook.add_worksheet("Week to Week Comparison")
     writer.sheets["Week to Week Comparison"] = worksheet
 
+    # --------------------------------------------------
+    # FORMATS
+    # --------------------------------------------------
+
+    light_orange = "#FCE5CD"
+
     header_format = workbook.add_format({
         "bold": True,
         "font_color": "white",
         "bg_color": "#0B3A6E",
         "align": "center",
-        "valign": "vcenter",
-        "border": 1,
-        "font_size": 11
+        "border": 1
     })
 
     date_format = workbook.add_format({
@@ -219,66 +232,68 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
         "font_color": "white",
         "bg_color": "#0B3A6E",
         "align": "center",
-        "border": 1,
-        "font_size": 10
+        "border": 1
     })
-
-    light_orange = "#FCE5CD"
 
     metric_format = workbook.add_format({
         "bg_color": light_orange,
-        "border": 1,
-        "font_size": 10
+        "border": 1
     })
 
     value_format = workbook.add_format({
         "bg_color": light_orange,
         "border": 1,
-        "align": "center",
-        "font_size": 10
+        "align": "center"
     })
 
     green_metric_format = workbook.add_format({
         "bg_color": "#D9EAD3",
-        "border": 1,
-        "font_size": 10
+        "border": 1
     })
 
     green_value_format = workbook.add_format({
         "bg_color": "#D9EAD3",
         "border": 1,
-        "align": "center",
-        "font_size": 10
+        "align": "center"
     })
 
     blue_metric_format = workbook.add_format({
         "bg_color": "#D9E2F3",
-        "border": 1,
-        "font_size": 10
+        "border": 1
     })
 
     blue_value_format = workbook.add_format({
         "bg_color": "#D9E2F3",
         "border": 1,
-        "align": "center",
-        "font_size": 10
+        "align": "center"
     })
 
-    plain_metric_format = workbook.add_format({
-        "border": 1,
-        "font_size": 10
+    white_metric_format = workbook.add_format({
+        "bg_color": "#FFFFFF",
+        "border": 1
     })
 
-    plain_value_format = workbook.add_format({
+    white_value_format = workbook.add_format({
+        "bg_color": "#FFFFFF",
         "border": 1,
-        "align": "center",
-        "font_size": 10
+        "align": "center"
+    })
+
+    percent_format = workbook.add_format({
+        "num_format": "0.0%",
+        "bg_color": "#FFFFFF",
+        "border": 1,
+        "align": "center"
     })
 
     worksheet.set_column(0, 0, 45)
     worksheet.set_default_row(16)
 
     current_row = 0
+
+    # --------------------------------------------------
+    # MAIN LOOP
+    # --------------------------------------------------
 
     for program_name in sorted(program_files.keys()):
 
@@ -288,7 +303,7 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
 
         metrics_by_date = {}
 
-        for file_date, file_path, file_name in files:
+        for file_date, file_path, _ in files:
 
             try:
                 df = pd.read_excel(file_path, sheet_name="Final")
@@ -316,91 +331,79 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
         new_this_week = []
         converted_this_week = []
         salesforce_completed = []
+        conversion_percent = []
 
         for file_date in all_dates:
 
-            date_label = file_date.strftime("%m/%d/%Y")
-            date_headers.append(date_label)
+            label = file_date.strftime("%m/%d/%Y")
+            date_headers.append(label)
 
-            if file_date in metrics_by_date:
-                total = metrics_by_date[file_date]["total"]
-                above = metrics_by_date[file_date]["above"]
-                below = metrics_by_date[file_date]["below"]
-            else:
-                total = 0
-                above = 0
-                below = 0
+            data = metrics_by_date.get(file_date, {"total": 0, "above": 0, "below": 0})
 
-            total_partials.append(total)
-            above_70.append(above)
-            below_69.append(below)
+            total_partials.append(data["total"])
+            above_70.append(data["above"])
+            below_69.append(data["below"])
 
             converted_this_week.append(
-                conversions_lookup.get(program_name, {}).get(date_label, 0)
+                conversions_lookup.get(program_name, {}).get(label, 0)
             )
 
-            salesforce_completed.append(
-                salesforce_lookup.get(program_name, {}).get(date_label, 0)
-            )
+            sf_val = salesforce_lookup.get(program_name, {}).get(label, 0)
+            salesforce_completed.append(sf_val)
 
         for i in range(len(total_partials)):
             if i == len(total_partials) - 1:
                 new_this_week.append(0)
             else:
-                diff = total_partials[i] - total_partials[i + 1]
-                new_this_week.append(max(diff, 0))
+                new_this_week.append(
+                    max(total_partials[i] - total_partials[i + 1], 0)
+                )
+
+        for i in range(len(converted_this_week)):
+            sf = salesforce_completed[i]
+            conv = converted_this_week[i]
+            conversion_percent.append((conv / sf) if sf else 0)
+
+        # --------------------------------------------------
+        # HEADER
+        # --------------------------------------------------
 
         worksheet.write(current_row, 0, display_name, header_format)
 
         for col, date_value in enumerate(date_headers, start=1):
             worksheet.write(current_row, col, date_value, date_format)
-            worksheet.set_column(col, col, 16)
+            worksheet.set_column(col, col, 20)
 
         current_row += 1
 
+        # --------------------------------------------------
+        # METRICS
+        # --------------------------------------------------
+
         metric_rows = [
-
-            ("Salesforce Completed Applications",
-             salesforce_completed,
-             blue_metric_format,
-             blue_value_format),
-
-            ("Total Partial Entries",
-             total_partials,
-             metric_format,
-             value_format),
-
-            ("Above 70%",
-             above_70,
-             metric_format,
-             value_format),
-
-            ("Below 69%",
-             below_69,
-             metric_format,
-             value_format),
-
-            ("New Partial Entries this week",
-             new_this_week,
-             green_metric_format,
-             green_value_format),
-
-            ("Partial Entries Converted to Apps (This Week)",
-             converted_this_week,
-             plain_metric_format,
-             plain_value_format)
+            ("Salesforce Completed Applications", salesforce_completed, blue_metric_format, blue_value_format),
+            ("Total Partial Entries", total_partials, metric_format, value_format),
+            ("Above 70%", above_70, metric_format, value_format),
+            ("Below 69%", below_69, metric_format, value_format),
+            ("New Partial Entries this week", new_this_week, green_metric_format, green_value_format),
+            ("Partial Entries Converted to Apps (This Week)", converted_this_week, white_metric_format, white_value_format),
+            ("Percentage of Partial entry conversion vs weekly apps", conversion_percent, white_metric_format, percent_format)
         ]
 
-        for metric_name, values, metric_fmt, value_fmt in metric_rows:
+        for metric_name, values, m_fmt, v_fmt in metric_rows:
 
-            worksheet.write(current_row, 0, metric_name, metric_fmt)
+            worksheet.write(current_row, 0, metric_name, m_fmt)
 
             for col, value in enumerate(values, start=1):
-                worksheet.write(current_row, col, value, value_fmt)
+                worksheet.write(current_row, col, value, v_fmt)
 
             current_row += 1
 
         current_row += 2
+
+# --------------------------------------------------
+# DONE
+# --------------------------------------------------
 
 print("\n========================================")
 print("WEEK TO WEEK REPORT GENERATED")

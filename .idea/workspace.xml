@@ -5,29 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/1.Gravity-forms-weekly.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/x3.Week-to-Week-Comparison.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/4.Week-to-week-optimized.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-11-26-enlight-Converted.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-11-26-flagship-Converted.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-11-26-ford-Converted.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-11-26-google-Converted.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-11-26-halloran-Converted.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/1.Gravity-forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/optimized/0.Gravity-forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/2.Partials-to-Apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/optimized/2.Partials-to-Apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/3.Week-to-Week-Comparison.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/truist-fellowship.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/wellsfargo-fellowship.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-11-2026 - BMO - Partial Entries Report.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-11-2026 - ESEP - Partial Entries Report.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-11-2026 - Enlight - Partial Entries Report.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-11-2026 - Flagship - Partial Entries Report.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-11-2026 - Ford - Partial Entries Report.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-11-2026 - Google - Partial Entries Report.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-11-2026 - Halloran - Partial Entries Report.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-11-2026 - WesternUnion - Partial Entries Report.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/Week-to-Week-Comparison/05-12-2026 - Week to Week Comparison.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Western Union F26 All R&amp;A Weekly apps-2026-05-11-18-36-42.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/Archives/05-05-26-enlight-Converted.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/Archives/05-05-26-flagship-Converted.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/Archives/05-05-26-ford-Converted.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/Archives/05-05-26-google-Converted.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/Archives/05-05-26-halloran-Converted.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/0.Gravity-forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/1.Gravity-forms-weekly.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/2.Partials-to-Apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/x3.Week-to-Week-Comparison.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/BMO Fall 26/05-05-2026 - BMO - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/ESEP Fall 26/05-05-2026 - ESEP - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Enlight Fall 26/05-05-2026 - Enlight - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Flagship Fall 26/05-05-2026 - Flagship - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Ford Fall 26/05-05-2026 - Ford - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Google Fall 26/05-05-2026 - Google - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Halloran Fall 26/05-05-2026 - Halloran - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Truist Spring 26/02-23-2026 - Truist S26 - Partial Entries Report #16 - Weekly.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/reports/Truist Spring 26/02-23-2026 - Truist S26 - Partial Entries Report #16 - Weekly.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Week-to-Week-Comparison/05-13-2026 - Week to Week Comparison.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Wells Fargo 26/02-23-2026 - Wells Fargo S26 - Partial Entries Report #16 - Weekly.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/reports/Wells Fargo 26/02-23-2026 - Wells Fargo S26 - Partial Entries Report #16 - Weekly.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/WesternUnion Fall 26/05-05-2026 - WesternUnion - Partial Entries Report.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/BMO F26 All R&amp;A Weekly apps-2026-05-11-18-29-50.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/ESEP F26 All R&amp;A Weekly apps-2026-05-11-18-31-35.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Enlight F26 All R&amp;A Weekly apps-2026-05-11-18-30-26.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Flagship F26 All R&amp;A Weekly apps-2026-05-11-18-32-04.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Ford F26 All R&amp;A Weekly apps-2026-05-11-18-33-48.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Google F26 All R&amp;A Weekly apps-2026-05-11-18-34-16.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Halloran F26 All R&amp;A Weekly-2026-05-11-18-35-10.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/WesternUnion F26 All R&amp;A Weekly apps-2026-05-11-18-36-42.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,56 +71,61 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.0.Gravity-forms.executor": "Run",
-    "Python.1.Gravity-forms-weekly.executor": "Run",
-    "Python.2.Partials-to-Apps.executor": "Run",
-    "Python.3.Week-to-Week-Comparison-Salesforce.executor": "Run",
-    "Python.3.Week-to-Week-Comparison.executor": "Run",
-    "Python.PTA-Truist.executor": "Run",
-    "Python.PTA-WellsFargo.executor": "Run",
-    "Python.Partials-to-Apps.executor": "Run",
-    "Python.cleaned.executor": "Run",
-    "Python.google.executor": "Run",
-    "Python.google2.executor": "Run",
-    "Python.googleai.executor": "Run",
-    "Python.googleai2.executor": "Run",
-    "Python.gravity-forms.executor": "Run",
-    "Python.gravity_forms_script_1_limpieza_y_normalizacion_de_progress.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.metrics.executor": "Run",
-    "Python.rlom-2.executor": "Run",
-    "Python.rlom.executor": "Run",
-    "Python.rlom2.executor": "Run",
-    "Python.testing.executor": "Run",
-    "Python.truist-fellowship.executor": "Run",
-    "Python.truist.executor": "Run",
-    "Python.truist2.executor": "Run",
-    "Python.wellsfargo-fellowship.executor": "Run",
-    "Python.wellsfargo.executor": "Run",
-    "Python.wellsfargo2.executor": "Run",
-    "Python.wu-2.executor": "Run",
-    "Python.wu.executor": "Run",
-    "Python.wu2.executor": "Run",
-    "Python.x3.Week-to-Week-Comparison.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "ai.playground.ignore.import.keys.banner.in.settings": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "vcs.Git",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.0.Gravity-forms.executor&quot;: &quot;Run&quot;,
+    &quot;Python.1.Gravity-forms-weekly.executor&quot;: &quot;Run&quot;,
+    &quot;Python.1.Gravity-forms.executor&quot;: &quot;Run&quot;,
+    &quot;Python.2.Gravity-forms-weekly.executor&quot;: &quot;Run&quot;,
+    &quot;Python.2.Partials-to-Apps.executor&quot;: &quot;Run&quot;,
+    &quot;Python.3.Partials-to-Apps.executor&quot;: &quot;Run&quot;,
+    &quot;Python.3.Week-to-Week-Comparison-Salesforce.executor&quot;: &quot;Run&quot;,
+    &quot;Python.3.Week-to-Week-Comparison.executor&quot;: &quot;Run&quot;,
+    &quot;Python.4.Week-to-Week-Comparison.executor&quot;: &quot;Run&quot;,
+    &quot;Python.4.Week-to-week-optimized.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PTA-Truist.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PTA-WellsFargo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Partials-to-Apps.executor&quot;: &quot;Run&quot;,
+    &quot;Python.cleaned.executor&quot;: &quot;Run&quot;,
+    &quot;Python.google.executor&quot;: &quot;Run&quot;,
+    &quot;Python.google2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.googleai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.googleai2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.gravity-forms.executor&quot;: &quot;Run&quot;,
+    &quot;Python.gravity_forms_script_1_limpieza_y_normalizacion_de_progress.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.metrics.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rlom-2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rlom.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rlom2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.truist-fellowship.executor&quot;: &quot;Run&quot;,
+    &quot;Python.truist.executor&quot;: &quot;Run&quot;,
+    &quot;Python.truist2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wellsfargo-fellowship.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wellsfargo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wellsfargo2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wu-2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wu2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.x3.Week-to-Week-Comparison.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

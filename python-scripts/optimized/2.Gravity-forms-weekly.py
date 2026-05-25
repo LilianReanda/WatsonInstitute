@@ -8,10 +8,38 @@ from collections import defaultdict
 # CONFIG
 # --------------------------------------------------
 
-reports_folder = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\reports"
+# Current file:
+# WatsonInstitute/python-scripts/optimized/script.py
+#
+# We go UP 3 folders to reach:
+# WatsonInstitute/
+
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))
+    )
+)
+
+reports_folder = os.path.join(
+    BASE_DIR,
+    "reports"
+)
 
 email_col = "Email (Enter Email)"
 progress_col = "Progress"
+
+# --------------------------------------------------
+# VALIDATE REPORTS FOLDER
+# --------------------------------------------------
+
+if not os.path.exists(reports_folder):
+
+    print("\nERROR:")
+    print(f"Reports folder not found:\n{reports_folder}")
+
+    raise FileNotFoundError(
+        f"Missing folder: {reports_folder}"
+    )
 
 # --------------------------------------------------
 # FIND ALL REPORT FILES
@@ -46,7 +74,10 @@ for root, dirs, files in os.walk(reports_folder):
 
                 program_name = match.group(2).strip()
 
-                full_path = os.path.join(root, file)
+                full_path = os.path.join(
+                    root,
+                    file
+                )
 
                 program_files[program_name].append(
                     (report_date, full_path)
@@ -71,9 +102,12 @@ for program, files in program_files.items():
     files.sort(key=lambda x: x[0])
 
     previous_date, previous_file = files[-2]
+
     latest_date, latest_file = files[-1]
 
-    latest_filename = os.path.basename(latest_file)
+    latest_filename = os.path.basename(
+        latest_file
+    )
 
     # --------------------------------------------------
     # LOAD FINAL SHEETS
@@ -94,6 +128,7 @@ for program, files in program_files.items():
     except Exception as e:
 
         print(f"\nERROR reading Final sheets: {e}")
+
         continue
 
     # --------------------------------------------------
@@ -101,19 +136,31 @@ for program, files in program_files.items():
     # --------------------------------------------------
 
     df_previous.columns = (
-        df_previous.columns.astype(str).str.strip()
+        df_previous.columns
+        .astype(str)
+        .str.strip()
     )
 
     df_latest.columns = (
-        df_latest.columns.astype(str).str.strip()
+        df_latest.columns
+        .astype(str)
+        .str.strip()
     )
 
     if email_col not in df_previous.columns:
-        print(f"\nMissing email column in previous file.")
+
+        print(
+            "\nMissing email column in previous file."
+        )
+
         continue
 
     if email_col not in df_latest.columns:
-        print(f"\nMissing email column in latest file.")
+
+        print(
+            "\nMissing email column in latest file."
+        )
+
         continue
 
     # --------------------------------------------------
@@ -167,11 +214,23 @@ for program, files in program_files.items():
     # BUILD FINAL SUMMARY
     # --------------------------------------------------
 
-    summary_append = pd.DataFrame([
-        ("New Partial Entries This Week", len(weekly_new)),
-        ("Latest Report", latest_filename),
-        ("Previous Report", os.path.basename(previous_file))
-    ], columns=["Metric", "Count"])
+    summary_append = pd.DataFrame(
+        [
+            (
+                "New Partial Entries This Week",
+                len(weekly_new)
+            ),
+            (
+                "Latest Report",
+                latest_filename
+            ),
+            (
+                "Previous Report",
+                os.path.basename(previous_file)
+            )
+        ],
+        columns=["Metric", "Count"]
+    )
 
     summary_df = pd.concat(
         [
@@ -221,6 +280,7 @@ for program, files in program_files.items():
     if os.path.exists(output_path):
 
         try:
+
             os.remove(output_path)
 
         except PermissionError:
@@ -311,7 +371,9 @@ for program, files in program_files.items():
                         len(dataframe.columns) - 1
                     )
 
-                for i, col in enumerate(dataframe.columns):
+                for i, col in enumerate(
+                    dataframe.columns
+                ):
 
                     series = (
                         dataframe[col]
@@ -336,11 +398,15 @@ for program, files in program_files.items():
 
             if location_exists:
 
-                ws_location = writer.sheets["Location"]
+                ws_location = writer.sheets[
+                    "Location"
+                ]
 
                 ws_location.freeze_panes(1, 0)
 
-                for i in range(location_df.shape[1]):
+                for i in range(
+                    location_df.shape[1]
+                ):
 
                     series = (
                         location_df[i]
@@ -361,6 +427,7 @@ for program, files in program_files.items():
     except Exception as e:
 
         print(f"\nERROR writing report: {e}")
+
         continue
 
     # --------------------------------------------------
@@ -372,11 +439,15 @@ for program, files in program_files.items():
     if progress_col in df_latest.columns:
 
         above_70 = len(
-            df_latest[df_latest[progress_col] >= 70]
+            df_latest[
+                df_latest[progress_col] >= 70
+            ]
         )
 
         below_69 = len(
-            df_latest[df_latest[progress_col] <= 69]
+            df_latest[
+                df_latest[progress_col] <= 69
+            ]
         )
 
     else:
@@ -384,32 +455,59 @@ for program, files in program_files.items():
         above_70 = 0
         below_69 = 0
 
-    title = f"Report generated: {output_filename}"
+    title = (
+        f"Report generated: "
+        f"{output_filename}"
+    )
 
     line = "=" * len(title)
 
     print("\n" + line)
+
     print(title)
+
     print(line)
 
     col1_width = 35
     col2_width = 10
 
-    print(f"{'Metric':<{col1_width}}{'Count':>{col2_width}}")
+    print(
+        f"{'Metric':<{col1_width}}"
+        f"{'Count':>{col2_width}}"
+    )
 
     metrics = [
-        ("Partial Entries", partial_entries),
-        ("Above 70%", above_70),
-        ("Below 69%", below_69),
-        ("New Partial Entries This Week", len(weekly_new)),
-        ("Latest Report", latest_filename),
-        ("Previous Report", os.path.basename(previous_file))
+        (
+            "Partial Entries",
+            partial_entries
+        ),
+        (
+            "Above 70%",
+            above_70
+        ),
+        (
+            "Below 69%",
+            below_69
+        ),
+        (
+            "New Partial Entries This Week",
+            len(weekly_new)
+        ),
+        (
+            "Latest Report",
+            latest_filename
+        ),
+        (
+            "Previous Report",
+            os.path.basename(previous_file)
+        )
     ]
 
     for metric, value in metrics:
 
         print(
-            f"{metric:<{col1_width}}{str(value):>{col2_width}}"
+            f"{metric:<{col1_width}}"
+            f"{str(value):>{col2_width}}"
         )
 
 print("\nAll files processed.")

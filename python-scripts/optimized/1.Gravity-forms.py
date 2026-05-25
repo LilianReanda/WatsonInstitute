@@ -6,8 +6,27 @@ from datetime import datetime
 # CONFIG
 # --------------------------------------------------
 
-input_folder = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\gravity-forms-csvs"
-output_folder = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute\reports"
+# Current file:
+# WatsonInstitute/python-scripts/optimized/script.py
+#
+# We go UP 3 folders to reach:
+# WatsonInstitute/
+
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))
+    )
+)
+
+input_folder = os.path.join(
+    BASE_DIR,
+    "gravity-forms-csvs"
+)
+
+output_folder = os.path.join(
+    BASE_DIR,
+    "reports"
+)
 
 os.makedirs(output_folder, exist_ok=True)
 
@@ -18,6 +37,7 @@ today = datetime.today().strftime("%m-%d-%Y")
 # --------------------------------------------------
 
 def detect_program(filename):
+
     name = os.path.splitext(filename)[0]
 
     lower = name.lower()
@@ -31,6 +51,19 @@ def detect_program(filename):
     return name
 
 # --------------------------------------------------
+# VALIDATE INPUT FOLDER
+# --------------------------------------------------
+
+if not os.path.exists(input_folder):
+
+    print("\nERROR:")
+    print(f"Input folder not found:\n{input_folder}")
+
+    raise FileNotFoundError(
+        f"Missing folder: {input_folder}"
+    )
+
+# --------------------------------------------------
 # PROCESS EACH CSV
 # --------------------------------------------------
 
@@ -40,7 +73,11 @@ for file in os.listdir(input_folder):
         continue
 
     program_name = detect_program(file)
-    input_path = os.path.join(input_folder, file)
+
+    input_path = os.path.join(
+        input_folder,
+        file
+    )
 
     # --------------------------------------------------
     # READ CSV
@@ -65,7 +102,9 @@ for file in os.listdir(input_folder):
     # --------------------------------------------------
 
     for col in df.columns:
+
         if df[col].dtype == "object":
+
             df[col] = df[col].apply(
                 lambda x: (
                     x.encode("latin-1", "ignore").decode("utf-8", "ignore")
@@ -86,9 +125,17 @@ for file in os.listdir(input_folder):
         .str.lower()
     )
 
-    invalid_emails = {"", "nan", "none", "null"}
+    invalid_emails = {
+        "",
+        "nan",
+        "none",
+        "null"
+    }
 
-    df[email_col] = df[email_col].replace(list(invalid_emails), pd.NA)
+    df[email_col] = df[email_col].replace(
+        list(invalid_emails),
+        pd.NA
+    )
 
     df = df.dropna(subset=[email_col])
 
@@ -96,11 +143,17 @@ for file in os.listdir(input_folder):
     # NORMALIZE PROGRESS
     # --------------------------------------------------
 
-    df[progress_col] = pd.to_numeric(df[progress_col], errors="coerce")
+    df[progress_col] = pd.to_numeric(
+        df[progress_col],
+        errors="coerce"
+    )
 
     df[progress_col] = df[progress_col].fillna(100)
 
-    df.loc[df[progress_col] == 0, progress_col] = 100
+    df.loc[
+        df[progress_col] == 0,
+        progress_col
+    ] = 100
 
     # --------------------------------------------------
     # REORDER PROGRESS AFTER LAST NAME
@@ -111,6 +164,7 @@ for file in os.listdir(input_folder):
         cols = df.columns.tolist()
 
         if progress_col in cols:
+
             cols.insert(
                 cols.index("Name (Last)") + 1,
                 cols.pop(cols.index(progress_col))
@@ -141,11 +195,15 @@ for file in os.listdir(input_folder):
         )
 
         # Skip if any entry reached 100%
+
         if (group_sorted[progress_col] == 100).any():
             continue
 
         # Keep highest progress partial
-        selected_rows.append(group_sorted.iloc[0])
+
+        selected_rows.append(
+            group_sorted.iloc[0]
+        )
 
     df_final = pd.DataFrame(selected_rows)
 
@@ -154,7 +212,10 @@ for file in os.listdir(input_folder):
 
     df_final = (
         df_final
-        .sort_values(by=progress_col, ascending=False)
+        .sort_values(
+            by=progress_col,
+            ascending=False
+        )
         .reset_index(drop=True)
     )
 
@@ -162,9 +223,13 @@ for file in os.listdir(input_folder):
     # METRICS
     # --------------------------------------------------
 
-    above_70 = df_final[df_final[progress_col] >= 70]
+    above_70 = df_final[
+        df_final[progress_col] >= 70
+    ]
 
-    below_69 = df_final[df_final[progress_col] <= 69]
+    below_69 = df_final[
+        df_final[progress_col] <= 69
+    ]
 
     summary = [
         ("Partial Entries", len(df_final)),
@@ -187,6 +252,7 @@ for file in os.listdir(input_folder):
     location_frames = []
 
     # Country counts
+
     if country_col in df_final.columns:
 
         country_counts = (
@@ -205,6 +271,7 @@ for file in os.listdir(input_folder):
         location_frames.append(country_counts)
 
     # State counts
+
     if state_col in df_final.columns:
 
         state_counts = (
@@ -227,10 +294,15 @@ for file in os.listdir(input_folder):
     # --------------------------------------------------
 
     output_name = (
-        f"{today} - {program_name} - Partial Entries Report.xlsx"
+        f"{today} - "
+        f"{program_name} - "
+        f"Partial Entries Report.xlsx"
     )
 
-    output_path = os.path.join(output_folder, output_name)
+    output_path = os.path.join(
+        output_folder,
+        output_name
+    )
 
     with pd.ExcelWriter(
         output_path,
@@ -276,7 +348,10 @@ for file in os.listdir(input_folder):
                 )
 
                 # Leave 2 empty columns between tables
-                start_col += len(table.columns) + 2
+
+                start_col += (
+                    len(table.columns) + 2
+                )
 
         # --------------------------------------------------
         # FORMAT FINAL SHEET
@@ -295,7 +370,11 @@ for file in os.listdir(input_folder):
 
         for i, col in enumerate(df_final.columns):
 
-            series = df_final[col].fillna("").astype(str)
+            series = (
+                df_final[col]
+                .fillna("")
+                .astype(str)
+            )
 
             max_len = max(
                 series.map(len).max(),
@@ -325,7 +404,11 @@ for file in os.listdir(input_folder):
                 len(col)
             ) + 2
 
-            ws_summary.set_column(i, i, max_len)
+            ws_summary.set_column(
+                i,
+                i,
+                max_len
+            )
 
         # --------------------------------------------------
         # FORMAT LOCATION SHEET
@@ -356,13 +439,18 @@ for file in os.listdir(input_folder):
                         min(max_len, 40)
                     )
 
-                current_col += len(table.columns) + 2
+                current_col += (
+                    len(table.columns) + 2
+                )
 
     # --------------------------------------------------
     # PRINT CLEAN SUMMARY
     # --------------------------------------------------
 
-    title = f"Report generated: {output_name}"
+    title = (
+        f"Report generated: "
+        f"{output_name}"
+    )
 
     line = "=" * len(title)
 
@@ -373,9 +461,16 @@ for file in os.listdir(input_folder):
     col1_width = 20
     col2_width = 10
 
-    print(f"{'Metric':<{col1_width}}{'Count':>{col2_width}}")
+    print(
+        f"{'Metric':<{col1_width}}"
+        f"{'Count':>{col2_width}}"
+    )
 
     for metric, count in summary:
-        print(f"{metric:<{col1_width}}{count:>{col2_width}}")
+
+        print(
+            f"{metric:<{col1_width}}"
+            f"{count:>{col2_width}}"
+        )
 
 print("\nAll files processed.")

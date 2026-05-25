@@ -19,15 +19,31 @@ warnings.filterwarnings(
 
 today_str = datetime.today().strftime("%m-%d-%y")
 
-base_path = r"C:\Users\Emanuel\PyCharmMiscProject\WatsonInstitute"
+# --------------------------------------------------
+# BASE PROJECT PATH
+# --------------------------------------------------
+#
+# Current file:
+# WatsonInstitute/python-scripts/optimized/script.py
+#
+# Go UP 3 folders to:
+# WatsonInstitute/
+#
+# ==================================================
+
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))
+    )
+)
 
 reports_path = os.path.join(
-    base_path,
+    BASE_DIR,
     "reports"
 )
 
 salesforce_path = os.path.join(
-    base_path,
+    BASE_DIR,
     "salesforce"
 )
 
@@ -36,11 +52,29 @@ salesforce_path = os.path.join(
 # --------------------------------------------------
 
 output_path = os.path.join(
-    base_path,
+    BASE_DIR,
     "Partial-Entries-Converted-to-Apps"
 )
 
 os.makedirs(output_path, exist_ok=True)
+
+# --------------------------------------------------
+# VALIDATE REQUIRED FOLDERS
+# --------------------------------------------------
+
+required_folders = [
+    reports_path,
+    salesforce_path
+]
+
+for folder in required_folders:
+
+    if not os.path.exists(folder):
+
+        print("\nERROR:")
+        print(f"Missing folder:\n{folder}")
+
+        raise FileNotFoundError(folder)
 
 # ==================================================
 # HELPERS
@@ -205,12 +239,6 @@ def safe_column(df, col_name):
 # ==================================================
 
 program_reports = {}
-
-# --------------------------------------------------
-# IMPORTANT:
-# ONLY ORIGINAL REPORTS
-# EXCLUDE WEEKLY FILES
-# --------------------------------------------------
 
 pattern = re.compile(
     r"(\d{2}-\d{2}-\d{4}) - (.+?) - Partial Entries Report\.xlsx$",
@@ -430,7 +458,6 @@ for program_key, data in program_reports.items():
         df_latest["Email_clean"]
     )
 
-    # People who disappeared
     removed_emails = previous_emails - latest_emails
 
     print(f"Previous partials: {len(previous_emails)}")
@@ -450,14 +477,6 @@ for program_key, data in program_reports.items():
     # ==================================================
     # FIND CONVERSIONS
     # ==================================================
-    #
-    # Logic:
-    #
-    # 1. Was partial last week
-    # 2. Is no longer partial this week
-    # 3. Exists in Salesforce
-    #
-    # ==================================================
 
     merged = pd.merge(
         df_removed,
@@ -466,7 +485,6 @@ for program_key, data in program_reports.items():
         how="inner"
     )
 
-    # Remove duplicate conversions
     merged = merged.drop_duplicates(
         subset=["Email_clean"]
     )
@@ -612,7 +630,5 @@ for program, count, file in summary:
     )
 
     print(f"Created: {file}\n")
-
-
 
 print("\nAll files processed.")

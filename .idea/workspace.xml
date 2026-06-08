@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/reports/0.Download-gravityforms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python-scripts/optimized/reports/0.Download-salesforce-files.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-25-26-bmo-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-25-26-enlight-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-25-26-esep-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-25-26-flagship-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-25-26-google-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/05-25-26-westernunion-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/06-01-26-bmo-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/06-01-26-enlight-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/06-01-26-esep-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/06-01-26-flagship-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/06-01-26-ford-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/06-01-26-google-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Partial-Entries-Converted-to-Apps/06-01-26-westernunion-partials-converted-to-apps-this-week.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" afterDir="false" />
@@ -20,25 +23,25 @@
       <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-25-2026 - BMO - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-25-2026 - ESEP - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-25-2026 - Enlight - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-25-2026 - Flagship - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-25-2026 - Ford - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-25-2026 - Google - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-25-2026 - Halloran - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/05-25-2026 - WesternUnion - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/06-01-2026 - BMO - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/06-01-2026 - ESEP - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/06-01-2026 - Enlight - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/06-01-2026 - Flagship - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/06-01-2026 - Ford - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/06-01-2026 - Google - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/06-01-2026 - Halloran - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/06-01-2026 - WesternUnion - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/Truist Spring 26/02-23-2026 - Truist S26 - Partial Entries Report #16 - Weekly.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/reports/Truist Spring 26/02-23-2026 - Truist S26 - Partial Entries Report #16 - Weekly.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/Week-to-Week-Comparison/05-25-2026 - Week to Week Comparison.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Week-to-Week-Comparison/06-01-2026 - Week to Week Comparison.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/Wells Fargo 26/02-23-2026 - Wells Fargo S26 - Partial Entries Report #16 - Weekly.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/reports/Wells Fargo 26/02-23-2026 - Wells Fargo S26 - Partial Entries Report #16 - Weekly.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/BMO F26 All R&amp;A Weekly apps-2026-05-25-11-48-31.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/ESEP F26 All R&amp;A Weekly apps-2026-05-25-11-54-19.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Enlight F26 All R&amp;A Weekly apps-2026-05-25-11-49-28.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Flagship F26 All R&amp;A Weekly apps-2026-05-25-11-56-00.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Ford F26 All R&amp;A Weekly apps-2026-05-25-11-56-39.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Google F26 All R&amp;A Weekly apps-2026-05-25-11-57-19.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Halloran F26 All R&amp;A Weekly-2026-05-25-11-59-04.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/WesternUnion F26 All R&amp;A Weekly apps-2026-05-25-11-58-34.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/BMO F26 All R&amp;A Weekly apps-2026-06-01-11-47-48.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/ESEP F26 All R&amp;A Weekly apps-2026-06-01-11-49-06.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Enlight F26 All R&amp;A Weekly apps-2026-06-01-11-48-22.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Flagship F26 All R&amp;A Weekly apps-2026-06-01-11-49-29.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Ford F26 All R&amp;A Weekly apps-2026-06-01-11-49-55.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Google F26 All R&amp;A Weekly apps-2026-06-01-11-50-40.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Halloran F26 All R&amp;A Weekly-2026-06-01-11-51-46.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/WesternUnion F26 All R&amp;A Weekly apps-2026-06-01-11-52-22.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +72,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.0.Download-gravityforms.executor&quot;: &quot;Run&quot;,
+    &quot;Python.0.Download-salesforce-files.executor&quot;: &quot;Run&quot;,
     &quot;Python.0.Gravity-forms.executor&quot;: &quot;Run&quot;,
     &quot;Python.1.Gravity-forms-weekly.executor&quot;: &quot;Run&quot;,
     &quot;Python.1.Gravity-forms.executor&quot;: &quot;Run&quot;,

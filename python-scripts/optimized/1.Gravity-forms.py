@@ -452,11 +452,7 @@ for file in os.listdir(input_folder):
         f"{output_name}"
     )
 
-    line = "=" * len(title)
-
-    print("\n" + line)
-    print(title)
-    print(line)
+    print(f"\n{title}")
 
     col1_width = 20
     col2_width = 10

@@ -194,6 +194,29 @@ for program, files in program_files.items():
     ].copy()
 
     # --------------------------------------------------
+    # SAVE AND CONTINUE URL WEEKLY
+    # --------------------------------------------------
+
+    save_continue_col = "Save and Continue URL"
+
+    if save_continue_col in weekly_new.columns:
+
+        save_continue_weekly = (
+            weekly_new[
+                weekly_new[save_continue_col]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+                .ne("")
+            ]
+                .copy()
+        )
+
+    else:
+
+        save_continue_weekly = pd.DataFrame()
+
+    # --------------------------------------------------
     # LOAD ORIGINAL SUMMARY
     # --------------------------------------------------
 
@@ -314,7 +337,18 @@ for program, files in program_files.items():
             )
 
             # --------------------------------------------------
-            # 2. FINAL
+            # 2. SAVE AND CONTINUE URL WEEKLY
+            # --------------------------------------------------
+
+            if not save_continue_weekly.empty:
+                save_continue_weekly.to_excel(
+                    writer,
+                    sheet_name="Save-and-Continue-URL-weekly",
+                    index=False
+                )
+
+            # --------------------------------------------------
+            # 3. FINAL
             # --------------------------------------------------
 
             df_latest.to_excel(
@@ -324,7 +358,7 @@ for program, files in program_files.items():
             )
 
             # --------------------------------------------------
-            # 3. LOCATION
+            # 4. LOCATION
             # --------------------------------------------------
 
             if location_exists:
@@ -337,7 +371,7 @@ for program, files in program_files.items():
                 )
 
             # --------------------------------------------------
-            # 4. SUMMARY
+            # 5. SUMMARY
             # --------------------------------------------------
 
             summary_df.to_excel(
@@ -355,6 +389,11 @@ for program, files in program_files.items():
                 "Final": df_latest,
                 "Summary": summary_df
             }
+
+            if not save_continue_weekly.empty:
+                sheets[
+                    "Save-and-Continue-URL-weekly"
+                ] = save_continue_weekly
 
             for sheet, dataframe in sheets.items():
 
@@ -456,17 +495,11 @@ for program, files in program_files.items():
         below_69 = 0
 
     title = (
-        f"Report generated: "
+        f"Report: "
         f"{output_filename}"
     )
 
-    line = "=" * len(title)
-
-    print("\n" + line)
-
-    print(title)
-
-    print(line)
+    print(f"\n{title}")
 
     col1_width = 35
     col2_width = 10

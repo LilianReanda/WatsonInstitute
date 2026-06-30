@@ -6,36 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="1e33ae21-34a9-428c-a98c-78dabf0edaac" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/1.Gravity-forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/optimized/1.Gravity-forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/2.Gravity-forms-weekly.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-scripts/optimized/2.Gravity-forms-weekly.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/reports/0.Download-gravityforms.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-scripts/optimized/reports/0.Download-salesforce-files.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/06-15-2026 - BMO - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/06-15-2026 - ESEP - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/06-15-2026 - Enlight - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/06-15-2026 - Flagship - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/06-15-2026 - Ford - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/06-15-2026 - Google - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/06-15-2026 - Halloran - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/06-15-2026 - WesternUnion - Partial Entries Report - Weekly.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/BMO.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/ESEP.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Enlight.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Flagship.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Ford.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Google.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/Halloran.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gravity-forms-csvs/WesternUnion.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/Truist Spring 26/02-23-2026 - Truist S26 - Partial Entries Report #16 - Weekly.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/reports/Truist Spring 26/02-23-2026 - Truist S26 - Partial Entries Report #16 - Weekly.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/Week-to-Week-Comparison/06-15-2026 - Week to Week Comparison.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/Wells Fargo 26/02-23-2026 - Wells Fargo S26 - Partial Entries Report #16 - Weekly.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/reports/Wells Fargo 26/02-23-2026 - Wells Fargo S26 - Partial Entries Report #16 - Weekly.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/BMO F26 All R&amp;A Weekly apps-2026-06-15-08-52-12.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/ESEP F26 All R&amp;A Weekly apps-2026-06-15-08-54-06.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Enlight F26 All R&amp;A Weekly apps-2026-06-15-08-53-15.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Flagship F26 All R&amp;A Weekly apps-2026-06-15-08-55-07.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Ford F26 All R&amp;A Weekly apps-2026-06-15-08-56-17.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Google F26 All R&amp;A Weekly apps-2026-06-15-08-57-14.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/Halloran F26 All R&amp;A Weekly-2026-06-15-08-58-10.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/salesforce/WesternUnion F26 All R&amp;A Weekly apps-2026-06-15-09-05-31.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/BMO F26 All R&amp;A Weekly apps-2026-06-22-09-58-03.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/ESEP F26 All R&amp;A Weekly apps-2026-06-22-10-00-06.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Enlight F26 All R&amp;A Weekly apps-2026-06-22-09-58-23.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Flagship F26 All R&amp;A Weekly apps-2026-06-22-10-00-47.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Ford F26 All R&amp;A Weekly apps-2026-06-22-10-01-15.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Google F26 All R&amp;A Weekly apps-2026-06-22-10-01-55.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/Halloran F26 All R&amp;A Weekly-2026-06-22-10-02-53.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/salesforce/WesternUnion F26 All R&amp;A Weekly apps-2026-06-22-10-03-23.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

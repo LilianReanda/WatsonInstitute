@@ -570,7 +570,6 @@ for program_key, data in program_reports.items():
     if converted_count == 0:
         continue
 
-
     # ==================================================
     # FINAL OUTPUT
     # ==================================================
@@ -580,6 +579,15 @@ for program_key, data in program_reports.items():
         "Contact ID": safe_column(
             merged,
             "Contact ID"
+        ),
+
+        "Salesforce": (
+                "https://watson.lightning.force.com/lightning/r/Contact/"
+                + safe_column(
+            merged,
+            "Contact ID"
+        ).astype(str)
+                + "/view"
         ),
 
         "First Name": safe_column(

@@ -6,12 +6,6 @@ from datetime import datetime
 # CONFIG
 # --------------------------------------------------
 
-# Current file:
-# WatsonInstitute/python-scripts/optimized/script.py
-#
-# We go UP 3 folders to reach:
-# WatsonInstitute/
-
 BASE_DIR = os.path.dirname(
     os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))
@@ -32,6 +26,7 @@ os.makedirs(output_folder, exist_ok=True)
 
 today = datetime.today().strftime("%m-%d-%Y")
 
+
 # --------------------------------------------------
 # FUNCTION TO DETECT PROGRAM NAME
 # --------------------------------------------------
@@ -39,7 +34,6 @@ today = datetime.today().strftime("%m-%d-%Y")
 def detect_program(filename):
 
     name = os.path.splitext(filename)[0]
-
     lower = name.lower()
 
     if "wells" in lower and "fargo" in lower:
@@ -49,6 +43,33 @@ def detect_program(filename):
         return "Truist"
 
     return name
+
+
+# --------------------------------------------------
+# FUNCTION TO READ CSV
+# --------------------------------------------------
+
+def read_gravity_forms_csv(file_path):
+
+    """
+    Read Gravity Forms CSV.
+
+    UTF-8 with BOM is the normal expected format.
+    Latin-1 is used as a fallback if needed.
+    """
+
+    try:
+        return pd.read_csv(
+            file_path,
+            encoding="utf-8-sig"
+        )
+
+    except UnicodeDecodeError:
+        return pd.read_csv(
+            file_path,
+            encoding="latin-1"
+        )
+
 
 # --------------------------------------------------
 # VALIDATE INPUT FOLDER
@@ -63,13 +84,14 @@ if not os.path.exists(input_folder):
         f"Missing folder: {input_folder}"
     )
 
+
 # --------------------------------------------------
 # PROCESS EACH CSV
 # --------------------------------------------------
 
 for file in os.listdir(input_folder):
 
-    if not file.endswith(".csv"):
+    if not file.lower().endswith(".csv"):
         continue
 
     program_name = detect_program(file)
@@ -83,35 +105,43 @@ for file in os.listdir(input_folder):
     # READ CSV
     # --------------------------------------------------
 
-    df = pd.read_csv(input_path)
+    try:
+        df = read_gravity_forms_csv(input_path)
+
+    except Exception as e:
+
+        print(
+            f"\nCould not read file: {file}"
+        )
+
+        print(f"Error: {e}")
+
+        continue
 
     # --------------------------------------------------
     # CLEAN COLUMN NAMES
     # --------------------------------------------------
 
-    df.columns = df.columns.astype(str).str.strip()
+    df.columns = (
+        df.columns
+        .astype(str)
+        .str.strip()
+    )
 
     email_col = "Email (Enter Email)"
     progress_col = "Progress"
 
-    if email_col not in df.columns or progress_col not in df.columns:
+    if (
+        email_col not in df.columns
+        or progress_col not in df.columns
+    ):
+
+        print(
+            f"\nSkipped {file}: "
+            "required columns were not found."
+        )
+
         continue
-
-    # --------------------------------------------------
-    # FIX ENCODING SAFELY
-    # --------------------------------------------------
-
-    for col in df.columns:
-
-        if df[col].dtype == "object":
-
-            df[col] = df[col].apply(
-                lambda x: (
-                    x.encode("latin-1", "ignore").decode("utf-8", "ignore")
-                    if isinstance(x, str)
-                    else x
-                )
-            )
 
     # --------------------------------------------------
     # NORMALIZE EMAIL
@@ -121,7 +151,11 @@ for file in os.listdir(input_folder):
         df[email_col]
         .astype(str)
         .str.strip()
-        .str.replace(r"\s+", "", regex=True)
+        .str.replace(
+            r"\s+",
+            "",
+            regex=True
+        )
         .str.lower()
     )
 
@@ -137,7 +171,9 @@ for file in os.listdir(input_folder):
         pd.NA
     )
 
-    df = df.dropna(subset=[email_col])
+    df = df.dropna(
+        subset=[email_col]
+    )
 
     # --------------------------------------------------
     # NORMALIZE PROGRESS
@@ -148,7 +184,16 @@ for file in os.listdir(input_folder):
         errors="coerce"
     )
 
-    df[progress_col] = df[progress_col].fillna(100)
+    # Gravity Forms:
+    # 0 = completed
+    #
+    # Blank / invalid progress is also treated as
+    # completed, preserving the original behavior.
+
+    df[progress_col] = (
+        df[progress_col]
+        .fillna(100)
+    )
 
     df.loc[
         df[progress_col] == 0,
@@ -165,9 +210,21 @@ for file in os.listdir(input_folder):
 
         if progress_col in cols:
 
+            progress_position = cols.index(
+                progress_col
+            )
+
+            last_name_position = cols.index(
+                "Name (Last)"
+            )
+
+            progress_column = cols.pop(
+                progress_position
+            )
+
             cols.insert(
-                cols.index("Name (Last)") + 1,
-                cols.pop(cols.index(progress_col))
+                last_name_position + 1,
+                progress_column
             )
 
         df = df[cols]
@@ -177,8 +234,14 @@ for file in os.listdir(input_folder):
     # --------------------------------------------------
 
     df = df.sort_values(
-        by=[email_col, progress_col],
-        ascending=[True, False]
+        by=[
+            email_col,
+            progress_col
+        ],
+        ascending=[
+            True,
+            False
+        ]
     )
 
     # --------------------------------------------------
@@ -187,27 +250,47 @@ for file in os.listdir(input_folder):
 
     selected_rows = []
 
-    for email, group in df.groupby(email_col):
+    for email, group in df.groupby(
+        email_col,
+        sort=False
+    ):
 
         group_sorted = group.sort_values(
             by=progress_col,
             ascending=False
         )
 
-        # Skip if any entry reached 100%
+        # If this person has ANY completed entry,
+        # remove them from the partial-entry report.
 
-        if (group_sorted[progress_col] == 100).any():
+        if (
+            group_sorted[progress_col] == 100
+        ).any():
+
             continue
 
-        # Keep highest progress partial
+        # Otherwise, keep the entry with the
+        # highest completion percentage.
 
         selected_rows.append(
             group_sorted.iloc[0]
         )
 
-    df_final = pd.DataFrame(selected_rows)
+    # --------------------------------------------------
+    # BUILD FINAL DATAFRAME
+    # --------------------------------------------------
+
+    df_final = pd.DataFrame(
+        selected_rows
+    )
 
     if df_final.empty:
+
+        print(
+            f"\nNo partial entries found for "
+            f"{program_name}."
+        )
+
         continue
 
     df_final = (
@@ -232,14 +315,26 @@ for file in os.listdir(input_folder):
     ]
 
     summary = [
-        ("Partial Entries", len(df_final)),
-        ("Above 70%", len(above_70)),
-        ("Below 69%", len(below_69))
+        (
+            "Partial Entries",
+            len(df_final)
+        ),
+        (
+            "Above 70%",
+            len(above_70)
+        ),
+        (
+            "Below 69%",
+            len(below_69)
+        )
     ]
 
     summary_df = pd.DataFrame(
         summary,
-        columns=["Metric", "Count"]
+        columns=[
+            "Metric",
+            "Count"
+        ]
     )
 
     # --------------------------------------------------
@@ -268,9 +363,11 @@ for file in os.listdir(input_folder):
             "COUNTA of Address (Country)"
         ]
 
-        location_frames.append(country_counts)
+        location_frames.append(
+            country_counts
+        )
 
-    # State counts
+    # State / Province counts
 
     if state_col in df_final.columns:
 
@@ -287,7 +384,9 @@ for file in os.listdir(input_folder):
             "COUNTA of Address (State / Province)"
         ]
 
-        location_frames.append(state_counts)
+        location_frames.append(
+            state_counts
+        )
 
     # --------------------------------------------------
     # EXPORT EXCEL
@@ -310,7 +409,7 @@ for file in os.listdir(input_folder):
     ) as writer:
 
         # --------------------------------------------------
-        # FINAL SHEET
+        # 1. FINAL
         # --------------------------------------------------
 
         df_final.to_excel(
@@ -320,17 +419,7 @@ for file in os.listdir(input_folder):
         )
 
         # --------------------------------------------------
-        # SUMMARY SHEET
-        # --------------------------------------------------
-
-        summary_df.to_excel(
-            writer,
-            sheet_name="Summary",
-            index=False
-        )
-
-        # --------------------------------------------------
-        # LOCATION SHEET
+        # 2. LOCATION
         # --------------------------------------------------
 
         if location_frames:
@@ -347,19 +436,46 @@ for file in os.listdir(input_folder):
                     index=False
                 )
 
-                # Leave 2 empty columns between tables
-
                 start_col += (
                     len(table.columns) + 2
                 )
 
+        else:
+
+            # Create the sheet even if there are
+            # no location fields available.
+            pd.DataFrame(
+                {
+                    "Message": [
+                        "No location data available."
+                    ]
+                }
+            ).to_excel(
+                writer,
+                sheet_name="Location",
+                index=False
+            )
+
         # --------------------------------------------------
-        # FORMAT FINAL SHEET
+        # 3. SUMMARY
         # --------------------------------------------------
+
+        summary_df.to_excel(
+            writer,
+            sheet_name="Summary",
+            index=False
+        )
+
+        # ==================================================
+        # FORMAT FINAL
+        # ==================================================
 
         ws_final = writer.sheets["Final"]
 
-        ws_final.freeze_panes(1, 0)
+        ws_final.freeze_panes(
+            1,
+            0
+        )
 
         ws_final.autofilter(
             0,
@@ -368,7 +484,9 @@ for file in os.listdir(input_folder):
             len(df_final.columns) - 1
         )
 
-        for i, col in enumerate(df_final.columns):
+        for i, col in enumerate(
+            df_final.columns
+        ):
 
             series = (
                 df_final[col]
@@ -387,17 +505,66 @@ for file in os.listdir(input_folder):
                 min(max_len, 50)
             )
 
-        # --------------------------------------------------
-        # FORMAT SUMMARY SHEET
-        # --------------------------------------------------
+        # ==================================================
+        # FORMAT LOCATION
+        # ==================================================
+
+        ws_location = writer.sheets["Location"]
+
+        ws_location.freeze_panes(
+            1,
+            0
+        )
+
+        current_col = 0
+
+        for table in location_frames:
+
+            for i, col in enumerate(
+                table.columns
+            ):
+
+                series = (
+                    table[col]
+                    .fillna("")
+                    .astype(str)
+                )
+
+                max_len = max(
+                    series.map(len).max(),
+                    len(col)
+                ) + 2
+
+                ws_location.set_column(
+                    current_col + i,
+                    current_col + i,
+                    min(max_len, 40)
+                )
+
+            current_col += (
+                len(table.columns) + 2
+            )
+
+        # ==================================================
+        # FORMAT SUMMARY
+        # ==================================================
 
         ws_summary = writer.sheets["Summary"]
 
-        ws_summary.freeze_panes(1, 0)
+        ws_summary.freeze_panes(
+            1,
+            0
+        )
 
-        for i, col in enumerate(summary_df.columns):
+        for i, col in enumerate(
+            summary_df.columns
+        ):
 
-            series = summary_df[col].astype(str)
+            series = (
+                summary_df[col]
+                .fillna("")
+                .astype(str)
+            )
 
             max_len = max(
                 series.map(len).max(),
@@ -409,39 +576,6 @@ for file in os.listdir(input_folder):
                 i,
                 max_len
             )
-
-        # --------------------------------------------------
-        # FORMAT LOCATION SHEET
-        # --------------------------------------------------
-
-        if location_frames:
-
-            ws_location = writer.sheets["Location"]
-
-            ws_location.freeze_panes(1, 0)
-
-            current_col = 0
-
-            for table in location_frames:
-
-                for i, col in enumerate(table.columns):
-
-                    series = table[col].astype(str)
-
-                    max_len = max(
-                        series.map(len).max(),
-                        len(col)
-                    ) + 2
-
-                    ws_location.set_column(
-                        current_col + i,
-                        current_col + i,
-                        min(max_len, 40)
-                    )
-
-                current_col += (
-                    len(table.columns) + 2
-                )
 
     # --------------------------------------------------
     # PRINT CLEAN SUMMARY
@@ -468,5 +602,6 @@ for file in os.listdir(input_folder):
             f"{metric:<{col1_width}}"
             f"{count:>{col2_width}}"
         )
+
 
 print("\nAll files processed.")

@@ -27,6 +27,11 @@ reports_folder = os.path.join(
 
 email_col = "Email (Enter Email)"
 progress_col = "Progress"
+entry_date_col = "Entry Date"
+
+original_entry_col = "Original-Entry-Date"
+days_partial_col = "Days-as-Partial-Entry"
+
 
 # --------------------------------------------------
 # VALIDATE REPORTS FOLDER
@@ -40,6 +45,7 @@ if not os.path.exists(reports_folder):
     raise FileNotFoundError(
         f"Missing folder: {reports_folder}"
     )
+
 
 # --------------------------------------------------
 # FIND ALL REPORT FILES
@@ -83,8 +89,9 @@ for root, dirs, files in os.walk(reports_folder):
                     (report_date, full_path)
                 )
 
-            except:
+            except Exception:
                 pass
+
 
 # --------------------------------------------------
 # PROCESS EACH PROGRAM
@@ -109,6 +116,7 @@ for program, files in program_files.items():
         latest_file
     )
 
+
     # --------------------------------------------------
     # LOAD FINAL SHEETS
     # --------------------------------------------------
@@ -127,9 +135,12 @@ for program, files in program_files.items():
 
     except Exception as e:
 
-        print(f"\nERROR reading Final sheets: {e}")
+        print(
+            f"\nERROR reading Final sheets: {e}"
+        )
 
         continue
+
 
     # --------------------------------------------------
     # CLEAN COLUMN NAMES
@@ -147,6 +158,11 @@ for program, files in program_files.items():
         .str.strip()
     )
 
+
+    # --------------------------------------------------
+    # VALIDATE EMAIL COLUMN
+    # --------------------------------------------------
+
     if email_col not in df_previous.columns:
 
         print(
@@ -162,6 +178,7 @@ for program, files in program_files.items():
         )
 
         continue
+
 
     # --------------------------------------------------
     # NORMALIZE EMAILS
@@ -181,6 +198,249 @@ for program, files in program_files.items():
         .str.lower()
     )
 
+
+    # --------------------------------------------------
+    # NORMALIZE ENTRY DATES
+    # --------------------------------------------------
+
+    if entry_date_col in df_previous.columns:
+
+        df_previous[entry_date_col] = pd.to_datetime(
+            df_previous[entry_date_col],
+            errors="coerce"
+        )
+
+    else:
+
+        df_previous[entry_date_col] = pd.NaT
+
+
+    if entry_date_col in df_latest.columns:
+
+        df_latest[entry_date_col] = pd.to_datetime(
+            df_latest[entry_date_col],
+            errors="coerce"
+        )
+
+    else:
+
+        df_latest[entry_date_col] = pd.NaT
+
+
+    # --------------------------------------------------
+    # BUILD HISTORICAL ORIGINAL DATE LOOKUP
+    # --------------------------------------------------
+    #
+    # For every email in the previous report:
+    #
+    # 1. Use Original-Entry-Date if it exists.
+    # 2. Also consider the previous Entry Date.
+    # 3. Keep the OLDEST date available.
+    #
+    # This allows the system to continue working even
+    # when the previous report was created before the
+    # Original-Entry-Date column existed.
+    #
+    # --------------------------------------------------
+
+    previous_original_dates = {}
+
+
+    for _, row in df_previous.iterrows():
+
+        email = row[email_col]
+
+        if pd.isna(email):
+            continue
+
+        dates = []
+
+
+        # Existing historical original date
+
+        if original_entry_col in df_previous.columns:
+
+            historical_date = pd.to_datetime(
+                row[original_entry_col],
+                errors="coerce"
+            )
+
+            if pd.notna(historical_date):
+
+                dates.append(
+                    historical_date
+                )
+
+
+        # Previous Entry Date
+
+        previous_entry_date = row[
+            entry_date_col
+        ]
+
+        if pd.notna(previous_entry_date):
+
+            dates.append(
+                previous_entry_date
+            )
+
+
+        # Keep oldest known date
+
+        if dates:
+
+            oldest_date = min(dates)
+
+            if (
+                email not in previous_original_dates
+                or oldest_date
+                < previous_original_dates[email]
+            ):
+
+                previous_original_dates[email] = (
+                    oldest_date
+                )
+
+
+    # --------------------------------------------------
+    # BUILD ORIGINAL-ENTRY-DATE FOR LATEST REPORT
+    # --------------------------------------------------
+    #
+    # The original date is the oldest known date between:
+    #
+    # - Current Entry Date
+    # - Current Original-Entry-Date, if available
+    # - Previous historical Original-Entry-Date
+    # - Previous Entry Date
+    #
+    # --------------------------------------------------
+
+    original_dates = []
+
+
+    for _, row in df_latest.iterrows():
+
+        email = row[email_col]
+
+        dates = []
+
+
+        # Current Entry Date
+
+        current_entry_date = row[
+            entry_date_col
+        ]
+
+        if pd.notna(current_entry_date):
+
+            dates.append(
+                current_entry_date
+            )
+
+
+        # Current Original-Entry-Date
+        # (useful if this column already exists
+        # for any reason)
+
+        if original_entry_col in df_latest.columns:
+
+            current_original_date = pd.to_datetime(
+                row[original_entry_col],
+                errors="coerce"
+            )
+
+            if pd.notna(current_original_date):
+
+                dates.append(
+                    current_original_date
+                )
+
+
+        # Historical date from previous report
+
+        previous_original_date = (
+            previous_original_dates.get(
+                email
+            )
+        )
+
+        if pd.notna(previous_original_date):
+
+            dates.append(
+                previous_original_date
+            )
+
+
+        # Select oldest known date
+
+        if dates:
+
+            original_dates.append(
+                min(dates)
+            )
+
+        else:
+
+            original_dates.append(
+                pd.NaT
+            )
+
+
+    # Add / replace Original-Entry-Date
+
+    df_latest[original_entry_col] = (
+        original_dates
+    )
+
+
+    # --------------------------------------------------
+    # CALCULATE DAYS-AS-PARTIAL-ENTRY
+    # --------------------------------------------------
+    #
+    # Number of days from the original entry date
+    # until the date of the latest report.
+    #
+    # Example:
+    #
+    # Original: 09-21-2026
+    # Report:   09-28-2026
+    #
+    # Result: 7
+    #
+    # A new entry on 09-28:
+    #
+    # Original: 09-28-2026
+    # Report:   09-28-2026
+    #
+    # Result: 0
+    #
+    # --------------------------------------------------
+
+    report_date = pd.Timestamp(
+        latest_date
+    ).normalize()
+
+
+    df_latest[days_partial_col] = (
+        report_date
+        - pd.to_datetime(
+            df_latest[original_entry_col],
+            errors="coerce"
+        ).dt.normalize()
+    ).dt.days
+
+
+    # Prevent unexpected negative values
+
+    df_latest[days_partial_col] = (
+        df_latest[days_partial_col]
+        .where(
+            df_latest[days_partial_col] >= 0,
+            0
+        )
+    )
+
+
     # --------------------------------------------------
     # FIND NEW ENTRIES
     # --------------------------------------------------
@@ -190,31 +450,41 @@ for program, files in program_files.items():
     )
 
     weekly_new = df_latest[
-        ~df_latest[email_col].isin(previous_emails)
+        ~df_latest[email_col].isin(
+            previous_emails
+        )
     ].copy()
+
 
     # --------------------------------------------------
     # SAVE AND CONTINUE URL WEEKLY
     # --------------------------------------------------
 
-    save_continue_col = "Save and Continue URL"
+    save_continue_col = (
+        "Save and Continue URL"
+    )
 
     if save_continue_col in weekly_new.columns:
 
         save_continue_weekly = (
             weekly_new[
-                weekly_new[save_continue_col]
+                weekly_new[
+                    save_continue_col
+                ]
                 .fillna("")
                 .astype(str)
                 .str.strip()
                 .ne("")
             ]
-                .copy()
+            .copy()
         )
 
     else:
 
-        save_continue_weekly = pd.DataFrame()
+        save_continue_weekly = (
+            pd.DataFrame()
+        )
+
 
     # --------------------------------------------------
     # LOAD ORIGINAL SUMMARY
@@ -227,11 +497,15 @@ for program, files in program_files.items():
             sheet_name="Summary"
         )
 
-    except:
+    except Exception:
 
         original_summary = pd.DataFrame(
-            columns=["Metric", "Count"]
+            columns=[
+                "Metric",
+                "Count"
+            ]
         )
+
 
     # --------------------------------------------------
     # BUILD FINAL SUMMARY
@@ -249,11 +523,17 @@ for program, files in program_files.items():
             ),
             (
                 "Previous Report",
-                os.path.basename(previous_file)
+                os.path.basename(
+                    previous_file
+                )
             )
         ],
-        columns=["Metric", "Count"]
+        columns=[
+            "Metric",
+            "Count"
+        ]
     )
+
 
     summary_df = pd.concat(
         [
@@ -262,6 +542,7 @@ for program, files in program_files.items():
         ],
         ignore_index=True
     )
+
 
     # --------------------------------------------------
     # LOAD LOCATION TAB
@@ -279,8 +560,10 @@ for program, files in program_files.items():
 
         location_exists = True
 
-    except:
+    except Exception:
+
         pass
+
 
     # --------------------------------------------------
     # OUTPUT FILE
@@ -296,6 +579,7 @@ for program, files in program_files.items():
         output_filename
     )
 
+
     # --------------------------------------------------
     # DELETE EXISTING FILE
     # --------------------------------------------------
@@ -308,12 +592,22 @@ for program, files in program_files.items():
 
         except PermissionError:
 
-            print("\n===================================")
-            print("FILE IS OPEN - CLOSE EXCEL FILE")
-            print("===================================")
+            print(
+                "\n==================================="
+            )
+
+            print(
+                "FILE IS OPEN - CLOSE EXCEL FILE"
+            )
+
+            print(
+                "==================================="
+            )
+
             print(output_path)
 
             continue
+
 
     # --------------------------------------------------
     # EXPORT REPORT
@@ -336,16 +630,21 @@ for program, files in program_files.items():
                 index=False
             )
 
+
             # --------------------------------------------------
             # 2. SAVE AND CONTINUE URL WEEKLY
             # --------------------------------------------------
 
             if not save_continue_weekly.empty:
+
                 save_continue_weekly.to_excel(
                     writer,
-                    sheet_name="Save-and-Continue-URL-weekly",
+                    sheet_name=(
+                        "Save-and-Continue-URL-weekly"
+                    ),
                     index=False
                 )
+
 
             # --------------------------------------------------
             # 3. FINAL
@@ -356,6 +655,7 @@ for program, files in program_files.items():
                 sheet_name="Final",
                 index=False
             )
+
 
             # --------------------------------------------------
             # 4. LOCATION
@@ -370,6 +670,7 @@ for program, files in program_files.items():
                     header=False
                 )
 
+
             # --------------------------------------------------
             # 5. SUMMARY
             # --------------------------------------------------
@@ -380,9 +681,10 @@ for program, files in program_files.items():
                 index=False
             )
 
-            # --------------------------------------------------
+
+            # ==================================================
             # FORMAT NORMAL SHEETS
-            # --------------------------------------------------
+            # ==================================================
 
             sheets = {
                 "Weekly": weekly_new,
@@ -390,16 +692,23 @@ for program, files in program_files.items():
                 "Summary": summary_df
             }
 
+
             if not save_continue_weekly.empty:
+
                 sheets[
                     "Save-and-Continue-URL-weekly"
                 ] = save_continue_weekly
+
 
             for sheet, dataframe in sheets.items():
 
                 ws = writer.sheets[sheet]
 
-                ws.freeze_panes(1, 0)
+                ws.freeze_panes(
+                    1,
+                    0
+                )
+
 
                 if len(dataframe.columns) > 0:
 
@@ -409,6 +718,7 @@ for program, files in program_files.items():
                         len(dataframe),
                         len(dataframe.columns) - 1
                     )
+
 
                 for i, col in enumerate(
                     dataframe.columns
@@ -420,10 +730,19 @@ for program, files in program_files.items():
                         .astype(str)
                     )
 
-                    max_len = max(
-                        series.map(len).max(),
-                        len(col)
-                    ) + 2
+                    if len(series) > 0:
+
+                        max_len = max(
+                            series.map(len).max(),
+                            len(col)
+                        ) + 2
+
+                    else:
+
+                        max_len = (
+                            len(col) + 2
+                        )
+
 
                     ws.set_column(
                         i,
@@ -431,9 +750,53 @@ for program, files in program_files.items():
                         min(max_len, 50)
                     )
 
-            # --------------------------------------------------
+
+            # ==================================================
+            # FORMAT DATE COLUMNS
+            # ==================================================
+
+            date_format = writer.book.add_format(
+                {
+                    "num_format": "mm-dd-yyyy"
+                }
+            )
+
+
+            for sheet_name, dataframe in {
+                "Weekly": weekly_new,
+                "Final": df_latest
+            }.items():
+
+                ws = writer.sheets[
+                    sheet_name
+                ]
+
+
+                for date_column in [
+                    entry_date_col,
+                    original_entry_col
+                ]:
+
+                    if date_column in dataframe.columns:
+
+                        column_index = (
+                            dataframe.columns
+                            .get_loc(
+                                date_column
+                            )
+                        )
+
+                        ws.set_column(
+                            column_index,
+                            column_index,
+                            18,
+                            date_format
+                        )
+
+
+            # ==================================================
             # FORMAT LOCATION
-            # --------------------------------------------------
+            # ==================================================
 
             if location_exists:
 
@@ -441,7 +804,11 @@ for program, files in program_files.items():
                     "Location"
                 ]
 
-                ws_location.freeze_panes(1, 0)
+                ws_location.freeze_panes(
+                    1,
+                    0
+                )
+
 
                 for i in range(
                     location_df.shape[1]
@@ -453,9 +820,17 @@ for program, files in program_files.items():
                         .astype(str)
                     )
 
-                    max_len = (
-                        series.map(len).max()
-                    ) + 2
+
+                    if len(series) > 0:
+
+                        max_len = (
+                            series.map(len).max()
+                        ) + 2
+
+                    else:
+
+                        max_len = 10
+
 
                     ws_location.set_column(
                         i,
@@ -463,29 +838,40 @@ for program, files in program_files.items():
                         min(max_len, 40)
                     )
 
+
     except Exception as e:
 
-        print(f"\nERROR writing report: {e}")
+        print(
+            f"\nERROR writing report: {e}"
+        )
 
         continue
+
 
     # --------------------------------------------------
     # CONSOLE OUTPUT
     # --------------------------------------------------
 
-    partial_entries = len(df_latest)
+    partial_entries = len(
+        df_latest
+    )
+
 
     if progress_col in df_latest.columns:
 
         above_70 = len(
             df_latest[
-                df_latest[progress_col] >= 70
+                df_latest[
+                    progress_col
+                ] >= 70
             ]
         )
 
         below_69 = len(
             df_latest[
-                df_latest[progress_col] <= 69
+                df_latest[
+                    progress_col
+                ] <= 69
             ]
         )
 
@@ -494,20 +880,27 @@ for program, files in program_files.items():
         above_70 = 0
         below_69 = 0
 
+
     title = (
         f"Report: "
         f"{output_filename}"
     )
 
-    print(f"\n{title}")
+
+    print(
+        f"\n{title}"
+    )
+
 
     col1_width = 35
     col2_width = 10
+
 
     print(
         f"{'Metric':<{col1_width}}"
         f"{'Count':>{col2_width}}"
     )
+
 
     metrics = [
         (
@@ -532,9 +925,12 @@ for program, files in program_files.items():
         ),
         (
             "Previous Report",
-            os.path.basename(previous_file)
+            os.path.basename(
+                previous_file
+            )
         )
     ]
+
 
     for metric, value in metrics:
 
@@ -543,4 +939,7 @@ for program, files in program_files.items():
             f"{str(value):>{col2_width}}"
         )
 
-print("\nAll files processed.")
+
+print(
+    "\nAll files processed."
+)

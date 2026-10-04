@@ -29,8 +29,6 @@ today_str = datetime.today().strftime("%m-%d-%y")
 # Go UP 3 folders to:
 # WatsonInstitute/
 
-# ==================================================
-
 BASE_DIR = os.path.dirname(
     os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))
@@ -490,7 +488,52 @@ for program_key, data in program_reports.items():
         df_previous["Email_clean"].isin(
             removed_emails
         )
-    ]
+    ].copy()
+
+
+    # ==================================================
+    # PREPARE ORIGINAL ENTRY DATE
+    # ==================================================
+
+    # New implementation:
+    #
+    # Original-Entry-Date is taken from the historical
+    # partial-entry report.
+    #
+    # If an older report does not contain the new field,
+    # fall back to Entry Date so the script remains
+    # compatible with older reports.
+
+    if "Original-Entry-Date" not in df_removed.columns:
+
+        df_removed["Original-Entry-Date"] = (
+            safe_column(
+                df_removed,
+                "Entry Date"
+            )
+        )
+
+    else:
+
+        original_dates = pd.to_datetime(
+            df_removed["Original-Entry-Date"],
+            errors="coerce"
+        )
+
+        entry_dates = pd.to_datetime(
+            safe_column(
+                df_removed,
+                "Entry Date"
+            ),
+            errors="coerce"
+        )
+
+        # If Original-Entry-Date is missing,
+        # use Entry Date as a fallback.
+
+        df_removed["Original-Entry-Date"] = (
+            original_dates.fillna(entry_dates)
+        )
 
 
     # ==================================================
@@ -549,7 +592,7 @@ for program_key, data in program_reports.items():
     merged = merged[
         (merged["Application Date Submitted"] >= week_start) &
         (merged["Application Date Submitted"] <= week_end)
-    ]
+    ].copy()
 
     # Remove duplicate emails AFTER
     # applying the weekly date filter
@@ -570,6 +613,42 @@ for program_key, data in program_reports.items():
     if converted_count == 0:
         continue
 
+
+    # ==================================================
+    # CALCULATE DAYS-PARTIAL-TO-APP
+    # ==================================================
+
+    # Original-Entry-Date represents the earliest
+    # known date the person entered the partial-entry
+    # pipeline.
+    #
+    # Application Date Submitted represents when the
+    # partial became an application in Salesforce.
+    #
+    # Therefore:
+    #
+    # Days-Partial-to-App =
+    # Application Date Submitted - Original-Entry-Date
+
+    merged["Original-Entry-Date"] = pd.to_datetime(
+        merged["Original-Entry-Date"],
+        errors="coerce"
+    )
+
+    merged["Days-Partial-to-App"] = (
+        merged["Application Date Submitted"]
+        - merged["Original-Entry-Date"]
+    ).dt.days
+
+    # Protect against unexpected negative values
+    # caused by inconsistent source dates.
+
+    merged.loc[
+        merged["Days-Partial-to-App"] < 0,
+        "Days-Partial-to-App"
+    ] = 0
+
+
     # ==================================================
     # FINAL OUTPUT
     # ==================================================
@@ -582,12 +661,12 @@ for program_key, data in program_reports.items():
         ),
 
         "Salesforce": (
-                "https://watson.lightning.force.com/lightning/r/Contact/"
-                + safe_column(
-            merged,
-            "Contact ID"
-        ).astype(str)
-                + "/view"
+            "https://watson.lightning.force.com/lightning/r/Contact/"
+            + safe_column(
+                merged,
+                "Contact ID"
+            ).astype(str)
+            + "/view"
         ),
 
         "First Name": safe_column(
@@ -605,9 +684,19 @@ for program_key, data in program_reports.items():
             "Email"
         ),
 
+        "Original-Entry-Date": safe_column(
+            merged,
+            "Original-Entry-Date"
+        ),
+
         "Application Date Submitted": safe_column(
             merged,
             "Application Date Submitted"
+        ),
+
+        "Days-Partial-to-App": safe_column(
+            merged,
+            "Days-Partial-to-App"
         ),
 
     })
@@ -617,6 +706,13 @@ for program_key, data in program_reports.items():
     # FORMAT DATES
     # --------------------------------------------------
 
+    final_df["Original-Entry-Date"] = (
+        pd.to_datetime(
+            final_df["Original-Entry-Date"],
+            errors="coerce"
+        )
+    )
+
     final_df["Application Date Submitted"] = (
         pd.to_datetime(
             final_df["Application Date Submitted"],
@@ -624,8 +720,17 @@ for program_key, data in program_reports.items():
         )
     )
 
+    # Sort by application date
+
     final_df = final_df.sort_values(
         by="Application Date Submitted"
+    )
+
+    # Format dates for Excel
+
+    final_df["Original-Entry-Date"] = (
+        final_df["Original-Entry-Date"]
+        .dt.strftime("%m-%d-%Y")
     )
 
     final_df["Application Date Submitted"] = (
@@ -655,6 +760,7 @@ for program_key, data in program_reports.items():
 
 
     # Remove existing file if open/exists
+
     if os.path.exists(output_full_path):
 
         try:

@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import re
 from datetime import datetime
 
 # --------------------------------------------------
@@ -28,19 +29,87 @@ today = datetime.today().strftime("%m-%d-%Y")
 
 
 # --------------------------------------------------
+# KNOWN PROGRAMS
+# --------------------------------------------------
+#
+# Display name -> list of keyword sequences that identify it
+# inside a Gravity Forms file name. Matching ignores upper/lower
+# case, spaces, hyphens and underscores, and looks for WHOLE words
+# (so "ford" will not match "stanford").
+#
+# To add a new program, add one line here.
+#
+# --------------------------------------------------
+
+KNOWN_PROGRAMS = {
+    "Truist":        [("truist",)],
+    "Wells Fargo":   [("wells", "fargo"), ("wellsfargo",)],
+    "Google":        [("google",)],
+    "Halloran":      [("halloran",)],
+    "Enlight":       [("enlight",)],
+    "Flagship":      [("flagship",)],
+    "Western Union": [("western", "union"), ("westernunion",)],
+    "Ford":          [("ford",)],
+}
+
+
+# --------------------------------------------------
 # FUNCTION TO DETECT PROGRAM NAME
 # --------------------------------------------------
 
 def detect_program(filename):
 
+    """
+    Detect the program from the Gravity Forms file name.
+
+    Example:
+    1-2027-truist-spring-application-2026-10-05.csv -> Truist
+
+    If no known program is found, the file name (without
+    extension) is used and a warning is printed.
+    """
+
     name = os.path.splitext(filename)[0]
-    lower = name.lower()
 
-    if "wells" in lower and "fargo" in lower:
-        return "Wells Fargo"
+    # Split into lowercase words: letters/numbers only
 
-    if "truist" in lower:
-        return "Truist"
+    words = re.findall(
+        r"[a-z0-9]+",
+        name.lower()
+    )
+
+    matches = []
+
+    for program, keyword_sets in KNOWN_PROGRAMS.items():
+
+        for keywords in keyword_sets:
+
+            size = len(keywords)
+
+            for i in range(len(words) - size + 1):
+
+                if tuple(words[i:i + size]) == keywords:
+
+                    if program not in matches:
+                        matches.append(program)
+
+    if len(matches) == 1:
+
+        return matches[0]
+
+    if len(matches) > 1:
+
+        print(
+            f"\nWARNING: {filename} matches several programs "
+            f"({', '.join(matches)}). Using {matches[0]}."
+        )
+
+        return matches[0]
+
+    print(
+        f"\nWARNING: no known program found in {filename}. "
+        f"Using the file name as the program name."
+    )
 
     return name
 
@@ -89,12 +158,24 @@ if not os.path.exists(input_folder):
 # PROCESS EACH CSV
 # --------------------------------------------------
 
+programs_seen = set()
+
 for file in os.listdir(input_folder):
 
     if not file.lower().endswith(".csv"):
         continue
 
     program_name = detect_program(file)
+
+    if program_name in programs_seen:
+
+        print(
+            f"\nWARNING: more than one CSV found for "
+            f"{program_name} ({file}). "
+            f"The report for this program will be overwritten."
+        )
+
+    programs_seen.add(program_name)
 
     input_path = os.path.join(
         input_folder,

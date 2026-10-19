@@ -350,11 +350,8 @@ if unmatched:
 # --------------------------------------------------
 
 with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
-
     workbook = writer.book
-
     worksheet = workbook.add_worksheet("Week to Week Comparison")
-
     writer.sheets["Week to Week Comparison"] = worksheet
 
     # --------------------------------------------------
@@ -430,7 +427,8 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
         "align": "center"
     })
 
-    worksheet.set_column(0, 0, 45)
+    # Widened slightly so the longer metric titles are not cut off
+    worksheet.set_column(0, 0, 48)
 
     worksheet.set_default_row(16)
 
@@ -441,11 +439,8 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
     # --------------------------------------------------
 
     for program_name in sorted(program_files.keys()):
-
         program_data = program_files[program_name]
-
         display_name = program_data["display_name"]
-
         files = program_data["files"]
 
         # --------------------------------------------------
@@ -491,17 +486,15 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
         converted_this_week = []
         salesforce_completed = []
         conversion_percent = []
+        recovery_rate = []          # NEW
 
         # --------------------------------------------------
         # BUILD METRICS BY DATE
         # --------------------------------------------------
 
         for file_date in all_dates:
-
             label = file_date.strftime("%m/%d/%Y")
-
             date_headers.append(label)
-
             date_metrics = metrics_by_date.get(
                 file_date,
                 {"total": 0, "above": 0, "below": 0}
@@ -580,7 +573,7 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
                     )
 
         # --------------------------------------------------
-        # CONVERSION %
+        # CONVERSION % AND RECOVERY RATE
         # --------------------------------------------------
 
         for i in range(len(converted_this_week)):
@@ -591,6 +584,12 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
 
             conversion_percent.append((conv / sf) if sf else 0)
 
+            # NEW: Partial Entry Recovery Rate
+            # = Converted / (Total Partial Entries + Converted)
+            denominator = total_partials[i] + conv
+
+            recovery_rate.append((conv / denominator) if denominator else 0)
+
         # --------------------------------------------------
         # HEADER
         # --------------------------------------------------
@@ -598,9 +597,7 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
         worksheet.write(current_row, 0, display_name, header_format)
 
         for col, date_value in enumerate(date_headers, start=1):
-
             worksheet.write(current_row, col, date_value, date_format)
-
             worksheet.set_column(col, col, 20)
 
         current_row += 1
@@ -647,23 +644,24 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
                 white_value_format
             ),
             (
-                "Percentage of Partial entry conversion vs weekly apps",
+                "Recovered Application Share of Total Completed",
                 conversion_percent,
+                white_metric_format,
+                percent_format
+            ),
+            (
+                "Partial Entry Recovery Rate",
+                recovery_rate,
                 white_metric_format,
                 percent_format
             )
         ]
 
         for metric_name, values, m_fmt, v_fmt in metric_rows:
-
             worksheet.write(current_row, 0, metric_name, m_fmt)
-
             for col, value in enumerate(values, start=1):
-
                 worksheet.write(current_row, col, value, v_fmt)
-
             current_row += 1
-
         current_row += 2
 
 

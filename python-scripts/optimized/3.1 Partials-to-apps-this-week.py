@@ -787,9 +787,14 @@ for program_key, data in program_reports.items():
         errors="coerce"
     )
 
+    # Both dates are normalized to midnight before subtracting.
+    # Entry Date from Gravity Forms includes a time of day, while
+    # Application Date Submitted does not, so without this the
+    # result is truncated and comes out one day short.
+
     merged["Days-Partial-to-App"] = (
-        merged["Application Date Submitted"]
-        - merged["Original-Entry-Date"]
+        merged["Application Date Submitted"].dt.normalize()
+        - merged["Original-Entry-Date"].dt.normalize()
     ).dt.days
 
     # Protect against unexpected negative values

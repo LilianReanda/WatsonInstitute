@@ -6,7 +6,6 @@ from datetime import datetime
 # --------------------------------------------------
 # CONFIG
 # --------------------------------------------------
-
 BASE_DIR = os.path.dirname(
     os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))
@@ -683,6 +682,5 @@ for file in os.listdir(input_folder):
             f"{metric:<{col1_width}}"
             f"{count:>{col2_width}}"
         )
-
 
 print("\nAll files processed.")

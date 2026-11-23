@@ -15,9 +15,12 @@ warnings.simplefilter("ignore", UserWarning)
 # CONFIGURATION
 # --------------------------------------------------
 
-home = Path.home()
-
-base_folder = home / "PyCharmMiscProject" / "WatsonInstitute"
+# CHANGE: relative path, same logic as scripts 1, 2 and 3.1
+# WatsonInstitute/python-scripts/optimized/script.py
+# parents[0] = optimized
+# parents[1] = python-scripts
+# parents[2] = WatsonInstitute
+base_folder = Path(__file__).resolve().parents[2]
 
 reports_folder = base_folder / "reports"
 
@@ -27,7 +30,6 @@ salesforce_folder = base_folder / "salesforce"
 
 output_folder = reports_folder / "00-Week-to-Week-Comparison"
 
-# CHANGE: parents=True so it does not fail if a parent folder is missing
 output_folder.mkdir(parents=True, exist_ok=True)
 
 today = datetime.today().strftime("%m-%d-%Y")
@@ -65,13 +67,9 @@ def normalize_program_name(name):
 
     name = str(name).lower()
 
-    # ----------------------------------------------
-    # CHANGE: remove the export timestamp that
-    # Salesforce adds to the file name, e.g.
-    # "-2026-10-05-10-22-12"
-    # This must happen BEFORE symbols are removed,
-    # otherwise the digits survive in the key.
-    # ----------------------------------------------
+    # Remove the export timestamp that Salesforce adds
+    # to the file name, e.g. "-2026-10-05-10-22-12".
+    # This must happen BEFORE symbols are removed.
     name = re.sub(
         r"-?\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}",
         "",
@@ -83,7 +81,6 @@ def normalize_program_name(name):
     name = name.replace("wellsfargo", "wells fargo")
 
     # Remove program cycle: S26 / S27 -> (nothing)
-    # So "Truist S27" and "Truist" both become "truist"
     name = re.sub(r"s\d{2}", "", name, flags=re.IGNORECASE)
 
     # Remove known naming variations
@@ -274,19 +271,6 @@ for file_path in salesforce_folder.rglob("*.xlsx"):
         print(f"[Salesforce] Skipped (no 'Application Date Submitted'): {file}")
         continue
 
-    # --------------------------------------------------
-    # PROGRAM NAME FROM SALESFORCE FILE
-    #
-    # Uses the complete filename. The export timestamp
-    # (e.g. -2026-10-05-10-22-12) is removed inside
-    # normalize_program_name, so:
-    #
-    # Truist S27 All R&A Weekly apps-2026-10-05-10-22-12
-    #   -> truist
-    # Wells Fargo S27 All R&A Weekly apps-2026-10-05-10-22-31
-    #   -> wellsfargo
-    # --------------------------------------------------
-
     raw_name = Path(file).stem
 
     normalized_program = normalize_program_name(raw_name)
@@ -343,6 +327,16 @@ if unmatched:
     print("\n[WARNING] Salesforce keys with no matching report program:")
     for key in sorted(unmatched):
         print("  -", key)
+
+
+# --------------------------------------------------
+# EMAIL SUMMARY (collected during the main loop)
+# --------------------------------------------------
+
+email_blocks = []
+
+EMAIL_COL1_WIDTH = 35
+EMAIL_COL2_WIDTH = 10
 
 
 # --------------------------------------------------
@@ -427,7 +421,6 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
         "align": "center"
     })
 
-    # Widened slightly so the longer metric titles are not cut off
     worksheet.set_column(0, 0, 48)
 
     worksheet.set_default_row(16)
@@ -486,7 +479,7 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
         converted_this_week = []
         salesforce_completed = []
         conversion_percent = []
-        recovery_rate = []          # NEW
+        recovery_rate = []
 
         # --------------------------------------------------
         # BUILD METRICS BY DATE
@@ -504,17 +497,9 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
             above_70.append(date_metrics["above"])
             below_69.append(date_metrics["below"])
 
-            # --------------------------------------------------
-            # CONVERSIONS
-            # --------------------------------------------------
-
             converted_this_week.append(
                 conversions_lookup.get(program_name, {}).get(label, 0)
             )
-
-            # --------------------------------------------------
-            # SALESFORCE COMPLETED
-            # --------------------------------------------------
 
             salesforce_completed.append(
                 salesforce_lookup.get(program_name, {}).get(label, 0)
@@ -525,10 +510,6 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
         # --------------------------------------------------
 
         for i, file_date in enumerate(all_dates):
-
-            # ----------------------------------------------
-            # NEW LOGIC USING WEEKLY TAB
-            # ----------------------------------------------
 
             if file_date >= weekly_cutoff_date:
 
@@ -556,10 +537,6 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
 
                 new_this_week.append(weekly_count)
 
-            # ----------------------------------------------
-            # OLD LOGIC
-            # ----------------------------------------------
-
             else:
 
                 if i == len(total_partials) - 1:
@@ -584,11 +561,71 @@ with pd.ExcelWriter(output_path, engine="xlsxwriter") as writer:
 
             conversion_percent.append((conv / sf) if sf else 0)
 
-            # NEW: Partial Entry Recovery Rate
-            # = Converted / (Total Partial Entries + Converted)
             denominator = total_partials[i] + conv
 
             recovery_rate.append((conv / denominator) if denominator else 0)
+
+        # --------------------------------------------------
+        # EMAIL SUMMARY FOR THE LATEST REPORT DATE
+        # --------------------------------------------------
+        # Index 0 is the most recent date (all_dates is sorted
+        # newest first). Only built if this program actually
+        # has a report for that date.
+
+        latest_date = all_dates[0]
+
+        if latest_date in metrics_by_date:
+
+            latest_weekly_path = (
+                weekly_files_lookup
+                .get(program_name, {})
+                .get(latest_date)
+            )
+
+            if latest_weekly_path:
+                report_name = latest_weekly_path.name
+            else:
+                report_name = (
+                    f"{latest_date.strftime('%m-%d-%Y')} - "
+                    f"{display_name} - "
+                    f"Partial Entries Report - Weekly.xlsx"
+                )
+
+            email_rows = [
+                ("Partial Entries", total_partials[0]),
+                ("Above 70%", above_70[0]),
+                ("Below 69%", below_69[0]),
+                ("New Partial Entries This Week", new_this_week[0]),
+            ]
+
+            block = [f"Report: {report_name}"]
+
+            block.append(
+                f"{'Metric':<{EMAIL_COL1_WIDTH}}"
+                f"{'Count':>{EMAIL_COL2_WIDTH}}"
+            )
+
+            for metric, value in email_rows:
+                block.append(
+                    f"{metric:<{EMAIL_COL1_WIDTH}}"
+                    f"{value:>{EMAIL_COL2_WIDTH}}"
+                )
+
+            block.append(
+                f"{display_name} - "
+                f"Partial Entries Converted to Apps This Week: "
+                f"{converted_this_week[0]}"
+            )
+
+            email_blocks.append("\n".join(block))
+
+        else:
+
+            print(
+                f"\n[WARNING] {display_name} has no report for "
+                f"{latest_date.strftime('%m-%d-%Y')}. "
+                f"It was left out of the email summary."
+            )
 
         # --------------------------------------------------
         # HEADER
@@ -673,3 +710,16 @@ print("\n========================================")
 print("WEEK TO WEEK REPORT GENERATED")
 print("========================================")
 print(output_path)
+
+
+# --------------------------------------------------
+# EMAIL SUMMARY (copy / paste)
+# --------------------------------------------------
+
+print("\n========================================")
+print("EMAIL SUMMARY (COPY / PASTE)")
+print("========================================\n")
+
+print("\n\n".join(email_blocks))
+
+print()
